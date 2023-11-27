@@ -19,6 +19,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User saveUser(User user) {
+    user.setId(generateId());
     return userRepo.save(user);
   }
 

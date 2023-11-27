@@ -5,8 +5,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.soft.springbootdemo.model.User;
+import com.soft.springbootdemo.service.Service;
 
-public interface UserService {
+public interface UserService extends Service {
   public User saveUser(User user);
   public Optional<User> findById(UUID id);
   public User findByUsername(String username);
