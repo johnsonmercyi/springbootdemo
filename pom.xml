@@ -55,6 +55,7 @@
       <artifactId>flyway-core</artifactId>
       <version>10.1.0</version>
     </dependency>
+
  </dependencies>
 
 	<build>
