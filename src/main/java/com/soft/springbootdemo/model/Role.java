@@ -1,11 +1,16 @@
 package com.soft.springbootdemo.model;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +20,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role {
-    @Id private UUID id;
-    @Column(unique = true, nullable = false) private String name;
-    private LocalDateTime created;
-    private LocalDateTime updated;
+  @Id
+  private UUID id;
+
+  @Column(unique = true, nullable = false)
+  private String name;
+
+  @CreationTimestamp
+  private LocalDateTime created;
+
+  @UpdateTimestamp
+  private LocalDateTime updated;
+
+  @OneToMany(mappedBy = "role", orphanRemoval=true)
+  private Collection<UserRole> userRoles;
 }

@@ -1,15 +1,9 @@
 package com.soft.springbootdemo.repo;
 
 import java.util.UUID;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.soft.springbootdemo.model.Role;
 
-public class RoleRepo extends JpaRepository<Role, UUID> {
-
-    
-    public Role findByName(String role);
-
-
+public interface RoleRepo extends JpaRepository<Role, UUID> {
+  public Role findByName(String role);
 }

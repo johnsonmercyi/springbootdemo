@@ -50,7 +50,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-core</artifactId>
+      <version>10.1.0</version>
+    </dependency>
+ </dependencies>
 
 	<build>
 		<plugins>
@@ -68,5 +73,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
