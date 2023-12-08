@@ -1,0 +1,1 @@
+ALTER TABLE `user` MODIFY COLUMN `status` ENUM('0', '1') DEFAULT '1';

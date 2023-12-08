@@ -14,14 +14,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name="user_roles")
 public class UserRole {
+
   @Id
   private UUID id;
 
@@ -38,4 +37,14 @@ public class UserRole {
 
   @UpdateTimestamp
   private LocalDateTime updated;
+
+  public UserRole() {
+    this(UUID.randomUUID(), null, null, null, null);
+  }
+
+  @Override
+  public String toString() {
+    return "UserRole [id=" + id + ", user=" + user + ", role=" + role + ", created=" + created + ", updated=" + updated
+        + "]";
+  }
 }

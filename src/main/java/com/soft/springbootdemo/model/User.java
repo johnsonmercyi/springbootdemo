@@ -1,6 +1,7 @@
 package com.soft.springbootdemo.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -13,13 +14,34 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+// import lombok.NoArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor
+// @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+
+  public enum Status {
+    ZERO("0"),
+    ONE("1");
+
+    private String value;
+
+    private Status(String value) {
+      this.value = value;
+    }
+
+    /**
+     * @return the value
+     */
+    public String getValue() {
+      return value;
+    }
+
+  } 
+
   @Id
   private UUID id;
 
@@ -32,7 +54,8 @@ public class User {
   @Column(unique = true, nullable = false)
   private String email;
 
-  private String status;
+  @Column(name = "status", nullable = false)
+  private String status = Status.ONE.getValue();
 
   @CreationTimestamp
   private LocalDateTime created;
@@ -42,4 +65,16 @@ public class User {
 
   @OneToMany(mappedBy = "user", orphanRemoval=true)
   private Collection<UserRole> userRoles;
+
+  public User() {
+    this(UUID.randomUUID(), null, null, null, Status.ONE.getValue(), null, null, new ArrayList<>());
+  }
+
+  @Override
+  public String toString() {
+    return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", status="
+        + status + ", created=" + created + ", updated=" + updated + ", userRoles=" + userRoles + "]";
+  }
+
+  
 }
