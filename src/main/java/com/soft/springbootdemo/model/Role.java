@@ -8,6 +8,8 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -34,6 +36,7 @@ public class Role {
   private LocalDateTime updated;
 
   @OneToMany(mappedBy = "role", orphanRemoval=true)
+  @JsonIgnoreProperties("role")
   private Collection<UserRole> userRoles;
 
   public Role() {

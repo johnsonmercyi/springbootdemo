@@ -14,8 +14,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-// import lombok.NoArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
@@ -64,6 +62,7 @@ public class User {
   private LocalDateTime updated;
 
   @OneToMany(mappedBy = "user", orphanRemoval=true)
+  // @JsonIgnoreProperties("user")
   private Collection<UserRole> userRoles;
 
   public User() {

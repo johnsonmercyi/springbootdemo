@@ -1,6 +1,5 @@
 package com.soft.springbootdemo.controller;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.soft.springbootdemo.dto.UserDTO;
 import com.soft.springbootdemo.dto.UserRegistrationDTO;
 import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.model.User;
@@ -32,8 +32,8 @@ public class UserController {
   private final RoleService roleService;
 
   @GetMapping
-  public Collection<User> findAll() {
-    return userService.findAll();
+  public ResponseEntity<Collection<UserDTO>> findAll() {
+    return ResponseEntity.ok(userService.findAll());
   }
 
   @PostMapping
@@ -51,6 +51,11 @@ public class UserController {
   @GetMapping("/{id}")
   public ResponseEntity<User> fetchById(@PathVariable UUID id) {
     return ResponseEntity.ok(userService.findById(id).get());
+  }
+
+  @GetMapping("/{id}/with-roles")
+  public ResponseEntity<UserDTO> fetchWithRoles(@PathVariable UUID id) {
+    return ResponseEntity.ok(userService.findUserWithRoles(id));
   }
   
 
