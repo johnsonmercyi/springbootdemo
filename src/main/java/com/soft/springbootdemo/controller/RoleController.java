@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.service.role.RoleService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 
 
 @RestController
 @RequestMapping("/api/roles")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RoleController {
   
   private final RoleService roleService;
@@ -30,7 +30,6 @@ public class RoleController {
 
   @PostMapping
   public ResponseEntity<Role> saveRole(@RequestBody Role role) {
-    //why did you call roleService
     Role savedRole = roleService.saveRole(role);
     return ResponseEntity.ok(savedRole);
   }

@@ -6,9 +6,6 @@ import java.util.Collection;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,13 +27,12 @@ public class Role {
   private String name;
 
   @CreationTimestamp
+  @Column(nullable = false)
   private LocalDateTime created;
 
-  @UpdateTimestamp
   private LocalDateTime updated;
 
   @OneToMany(mappedBy = "role", orphanRemoval=true)
-  @JsonIgnoreProperties("role")
   private Collection<UserRole> userRoles;
 
   public Role() {

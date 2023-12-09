@@ -62,11 +62,13 @@ public class UserController {
   }
   
   @PostMapping("/{id}")
-  public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody UserRegistrationDTO userRegDTO) {
+  public ResponseEntity<UserDTO> updateUser(@PathVariable UUID id, @RequestBody UserRegistrationDTO userRegDTO) {
     User user = new User();
-
+    user.setUsername(userRegDTO.getUsername());
+    user.setPassword(userRegDTO.getPassword());
     user.setEmail(userRegDTO.getEmail());
-    return ResponseEntity.ok(userService.saveUser(user));
+
+    return ResponseEntity.ok(userService.updateUser(id, user));
   }
 
   @DeleteMapping("/{id}")

@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User updateUser(UUID uuid, User user) {
+  public UserDTO updateUser(UUID uuid, User user) {
     Optional<User> oldUser = userRepo.findById(uuid);
     if (oldUser.isPresent()) {
       User newUser = oldUser.get();
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
       newUser.setPassword(user.getPassword());
       newUser.setEmail(user.getEmail());
       userRepo.save(newUser);
-      return newUser;
+      return mapUserToDTO(newUser, true);
     }
     return null;
   }

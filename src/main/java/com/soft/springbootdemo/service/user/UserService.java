@@ -16,5 +16,5 @@ public interface UserService extends Service {
   public Optional<UserDTO> findById(UUID id);
   public UserDTO findByUsername(String username);
   public Collection<UserDTO> findAll();
-  public User updateUser(UUID uuid, User user);
+  public UserDTO updateUser(UUID uuid, User user);
 }

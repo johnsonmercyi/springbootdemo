@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -56,9 +55,9 @@ public class User {
   private String status = Status.ONE.getValue();
 
   @CreationTimestamp
+  @Column(nullable = false)
   private LocalDateTime created;
   
-  @UpdateTimestamp
   private LocalDateTime updated;
 
   @OneToMany(mappedBy = "user", orphanRemoval=true)
