@@ -1,4 +1,4 @@
-package com.soft.springbootdemo.dto;
+package com.soft.springbootdemo.dto.responsedto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

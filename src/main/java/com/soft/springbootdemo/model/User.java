@@ -62,7 +62,6 @@ public class User {
   private LocalDateTime updated;
 
   @OneToMany(mappedBy = "user", orphanRemoval=true)
-  // @JsonIgnoreProperties("user")
   private Collection<UserRole> userRoles;
 
   public User() {

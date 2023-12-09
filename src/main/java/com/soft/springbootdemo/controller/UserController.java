@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.soft.springbootdemo.dto.UserDTO;
 import com.soft.springbootdemo.dto.UserRegistrationDTO;
+import com.soft.springbootdemo.dto.responsedto.UserDTO;
 import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.model.User;
 import com.soft.springbootdemo.service.role.RoleService;
@@ -43,22 +43,24 @@ public class UserController {
     user.setPassword(userRegDTO.getPassword());
     user.setEmail(userRegDTO.getEmail());
 
-    List<Role> roles = List.of(roleService.findByName("customer"));
+    List<Role> roles = List.of(
+        roleService.findByName("customer"),
+        roleService.findByName("business")
+    );
 
     return userService.saveUserWithRoles(user, roles); //persist both user and customer
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<User> fetchById(@PathVariable UUID id) {
+  public ResponseEntity<UserDTO> fetchById(@PathVariable UUID id) {
     return ResponseEntity.ok(userService.findById(id).get());
   }
 
-  @GetMapping("/{id}/with-roles")
-  public ResponseEntity<UserDTO> fetchWithRoles(@PathVariable UUID id) {
-    return ResponseEntity.ok(userService.findUserWithRoles(id));
+  @GetMapping("/name/{username}")
+  public ResponseEntity<UserDTO> fetchByUsername(@PathVariable String username) {
+    return ResponseEntity.ok(userService.findByUsername(username));
   }
   
-
   @PostMapping("/{id}")
   public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody UserRegistrationDTO userRegDTO) {
     User user = new User();
