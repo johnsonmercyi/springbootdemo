@@ -33,8 +33,5 @@ public class RoleController {
     Role savedRole = roleService.saveRole(role);
     return ResponseEntity.ok(savedRole);
   }
-  
-
-
-  
+ 
 }
