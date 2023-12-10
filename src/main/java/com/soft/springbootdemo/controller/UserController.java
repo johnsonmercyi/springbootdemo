@@ -42,7 +42,7 @@ public class UserController {
     user.setUsername(userRegDTO.getUsername());
     user.setPassword(userRegDTO.getPassword());
     user.setEmail(userRegDTO.getEmail());
-
+    
     List<Role> roles = List.of(
         roleService.findByName("customer"),
         roleService.findByName("business")

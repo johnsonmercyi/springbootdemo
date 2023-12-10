@@ -9,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -51,7 +53,10 @@ public class User {
   @Column(unique = true, nullable = false)
   private String email;
 
-  @Column(name = "status", nullable = false)
+  @Column(
+    name = "status",
+    nullable = false, 
+    columnDefinition = "ENUM('0', '1') DEFAULT '1'")
   private String status = Status.ONE.getValue();
 
   @CreationTimestamp

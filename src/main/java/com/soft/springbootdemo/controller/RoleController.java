@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.soft.springbootdemo.dto.responsedto.RoleDTO;
 import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.service.role.RoleService;
 
 import lombok.RequiredArgsConstructor;
-
-
 
 @RestController
 @RequestMapping("/api/roles")
@@ -29,8 +28,11 @@ public class RoleController {
   }
 
   @PostMapping
-  public ResponseEntity<Role> saveRole(@RequestBody Role role) {
-    Role savedRole = roleService.saveRole(role);
+  public ResponseEntity<Role> saveRole(@RequestBody RoleDTO role) {
+    Role demoRole = new Role();
+    demoRole.setName(role.getName());
+    
+    Role savedRole = roleService.saveRole(demoRole);
     return ResponseEntity.ok(savedRole);
   }
  

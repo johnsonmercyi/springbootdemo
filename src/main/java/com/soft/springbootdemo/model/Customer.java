@@ -14,11 +14,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class Customer {
   @Id
@@ -46,4 +44,10 @@ public class Customer {
   private LocalDateTime created;
 
   private LocalDateTime updated;
+
+  public Customer() {
+    this(UUID.randomUUID(), null, null, null, null, null, null, null, null, null);
+  }
+
+
 }

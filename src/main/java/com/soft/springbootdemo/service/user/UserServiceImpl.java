@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
 
     if (userOptional.isPresent()) {
       // Map user data to a UserDTO object
-      return Optional.of(mapUserToDTO(userOptional.get(), true));
+      return Optional.ofNullable(mapUserToDTO(userOptional.get(), true));
     }
     return Optional.empty();
   }
