@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.stereotype.Service;
 
+import com.soft.springbootdemo.model.User;
 import com.soft.springbootdemo.model.UserRole;
 import com.soft.springbootdemo.repo.UserRoleRepo;
 
@@ -20,6 +21,11 @@ public class UserRoleServiceImpl implements UserRoleService {
   @Override
   public UserRole saveUserRole(UserRole userRole) {
     return userRoleRepo.save(userRole);
+  }
+
+  @Override
+  public UserRole findByUser(User user) {
+    return userRoleRepo.findByUserId(user.getId());
   }
 
   @Override

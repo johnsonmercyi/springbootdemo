@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.soft.springbootdemo.dto.responsedto.CustomerDTO;
 import com.soft.springbootdemo.model.Customer;
 import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.model.User;
@@ -12,9 +13,9 @@ import com.soft.springbootdemo.model.User;
 public interface CustomerService {
   public Customer saveCustomer(Customer customer, User user, List<Role> roles);
 
-  public Optional<Customer> findById(UUID id);
+  public Optional<CustomerDTO> findById(UUID id);
 
-  public Collection<Customer> findAll();
+  public Collection<CustomerDTO> findAll();
 
   public Customer updateCustomer(UUID uuid, Customer customer);
 }

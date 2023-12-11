@@ -1,5 +1,6 @@
 package com.soft.springbootdemo.service.customer;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -7,12 +8,13 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.soft.springbootdemo.dto.responsedto.CustomerDTO;
 import com.soft.springbootdemo.model.Customer;
 import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.model.User;
 import com.soft.springbootdemo.repo.CustomerRepo;
-import com.soft.springbootdemo.service.role.RoleService;
 import com.soft.springbootdemo.service.user.UserService;
+import com.soft.springbootdemo.util.Util;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -35,13 +37,24 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   @Override
-  public Optional<Customer> findById(UUID id) {
-    return customerRepo.findById(id);
+  public Optional<CustomerDTO> findById(UUID id) {
+    Optional<Customer> optionalCustomer = customerRepo.findById(id);
+    if (optionalCustomer.isPresent()) {
+      Customer customer = optionalCustomer.get();
+      return Optional.ofNullable(Util.mapCustomerToDTO(customer, true));
+    }
+    return Optional.empty();
   }
 
   @Override
-  public Collection<Customer> findAll() {
-    return customerRepo.findAll();
+  public Collection<CustomerDTO> findAll() {
+    List<Customer> customers = customerRepo.findAll();
+    List<CustomerDTO> customerDTOs = new ArrayList<>();
+
+    for (Customer customer : customers) {
+      customerDTOs.add(Util.mapCustomerToDTO(customer, false));
+    }
+    return customerDTOs;// Return all customers
   }
 
   @Override
@@ -55,11 +68,10 @@ public class CustomerServiceImpl implements CustomerService {
       oldCustomer.setAddress(customer.getAddress());
       oldCustomer.setNationality(customer.getNationality());
       oldCustomer.setDob(customer.getDob());
-      
+
       return customerRepo.save(oldCustomer);
     }
     return null;
   }
-
 
 }

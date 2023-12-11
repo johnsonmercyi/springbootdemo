@@ -15,6 +15,7 @@ import com.soft.springbootdemo.model.User;
 import com.soft.springbootdemo.model.UserRole;
 import com.soft.springbootdemo.repo.UserRepo;
 import com.soft.springbootdemo.repo.UserRoleRepo;
+import com.soft.springbootdemo.util.Util;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserService {
     User user = userRepo.findByUsername(username);
     if (user != null) {
       // Map user data to a UserDTO object
-      return mapUserToDTO(user, true);
+      return Util.mapUserToDTO(user, true);
     }
     return null;
   }
@@ -65,7 +66,7 @@ public class UserServiceImpl implements UserService {
     List<UserDTO> userDTOs = new ArrayList<>();
 
     for (User user : users) {
-      userDTOs.add(mapUserToDTO(user, false));
+      userDTOs.add(Util.mapUserToDTO(user, false));
     }
 
     return userDTOs;
@@ -80,7 +81,7 @@ public class UserServiceImpl implements UserService {
       newUser.setPassword(user.getPassword());
       newUser.setEmail(user.getEmail());
       userRepo.save(newUser);
-      return mapUserToDTO(newUser, true);
+      return Util.mapUserToDTO(newUser, true);
     }
     return null;
   }
@@ -92,32 +93,9 @@ public class UserServiceImpl implements UserService {
 
     if (userOptional.isPresent()) {
       // Map user data to a UserDTO object
-      return Optional.ofNullable(mapUserToDTO(userOptional.get(), true));
+      return Optional.ofNullable(Util.mapUserToDTO(userOptional.get(), true));
     }
     return Optional.empty();
-  }
-
-  private UserDTO mapUserToDTO(User user, boolean fetchRoles) {
-    // Map user to UserDTO object
-    UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getPassword(), user.getEmail(), user.getStatus(), user.getCreated(), user.getUpdated(), new ArrayList<>());
-
-    // Fetch and add roles to user if allowed
-    if (fetchRoles) {
-      // Map UserRoles data to a RoleDTO object
-      List<RoleDTO> userRoles = user.getUserRoles() // fetch UserRoles
-        .stream() // Convert to stream
-          .map(userRole -> {
-            // Map UserRoles to RoleDTO object
-            RoleDTO roleDTO = new RoleDTO(userRole.getId(), userRole.getRole().getName(), userRole.getCreated(), userRole.getUpdated());
-
-            return roleDTO;
-          }).toList();
-
-      // Set the user role in the UserDTO
-      userDTO.setUserRoles(userRoles);
-    }
-
-    return userDTO;
   }
   
 }
