@@ -58,7 +58,7 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   @Override
-  public Customer updateCustomer(UUID uuid, Customer customer) {
+  public CustomerDTO updateCustomer(UUID uuid, Customer customer) {
     Optional<Customer> optionalCust = customerRepo.findById(uuid);
     if (optionalCust.isPresent()) {
       Customer oldCustomer = optionalCust.get();
@@ -69,7 +69,7 @@ public class CustomerServiceImpl implements CustomerService {
       oldCustomer.setNationality(customer.getNationality());
       oldCustomer.setDob(customer.getDob());
 
-      return customerRepo.save(oldCustomer);
+      return Util.mapCustomerToDTO(customerRepo.save(oldCustomer), true);
     }
     return null;
   }

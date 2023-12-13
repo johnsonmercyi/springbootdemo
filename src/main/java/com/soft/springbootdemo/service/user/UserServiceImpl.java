@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.soft.springbootdemo.dto.responsedto.RoleDTO;
 import com.soft.springbootdemo.dto.responsedto.UserDTO;
 import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.model.User;

@@ -69,4 +69,18 @@ public class CustomerController {
     );
     
   }
+
+  @PostMapping("{id}")
+  public ResponseEntity<CustomerDTO> postMethodName(@PathVariable UUID id,@RequestBody UserRegistrationDTO userRegDTO) {
+    Customer customer = new Customer();
+    customer.setFirstname(userRegDTO.getFirstname());
+    customer.setLastname(userRegDTO.getLastname());
+    customer.setAddress(userRegDTO.getAddress());
+    customer.setNationality(userRegDTO.getNationality());
+    customer.setDob(userRegDTO.getDob());
+    customer.setGender(userRegDTO.getGender());
+
+    return ResponseEntity.ok(customerService.updateCustomer(id, customer));
+  }
+  
 }

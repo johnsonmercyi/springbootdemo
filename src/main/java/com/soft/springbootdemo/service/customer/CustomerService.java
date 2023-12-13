@@ -17,5 +17,5 @@ public interface CustomerService {
 
   public Collection<CustomerDTO> findAll();
 
-  public Customer updateCustomer(UUID uuid, Customer customer);
+  public CustomerDTO updateCustomer(UUID uuid, Customer customer);
 }
