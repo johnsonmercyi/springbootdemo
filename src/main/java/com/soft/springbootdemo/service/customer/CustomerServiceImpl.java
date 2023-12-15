@@ -58,7 +58,7 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   @Override
-  public CustomerDTO updateCustomer(UUID uuid, Customer customer) {
+  public CustomerDTO updateCustomer(UUID uuid, Customer customer, User user) {
     Optional<Customer> optionalCust = customerRepo.findById(uuid);
     if (optionalCust.isPresent()) {
       Customer oldCustomer = optionalCust.get();

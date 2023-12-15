@@ -1,5 +1,6 @@
 package com.soft.springbootdemo.controller;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -15,11 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.soft.springbootdemo.dto.UserRegistrationDTO;
 import com.soft.springbootdemo.dto.responsedto.CustomerDTO;
+import com.soft.springbootdemo.dto.responsedto.UserDTO;
 import com.soft.springbootdemo.model.Customer;
 import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.model.User;
 import com.soft.springbootdemo.service.customer.CustomerService;
 import com.soft.springbootdemo.service.role.RoleService;
+import com.soft.springbootdemo.service.user.UserService;
+import com.soft.springbootdemo.util.Util;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 public class CustomerController {
   private final CustomerService customerService;
   private final RoleService roleService;
+  private final UserService userService;
 
   @GetMapping
   public ResponseEntity<Collection<CustomerDTO>> findAllCustomers() {
@@ -71,7 +76,16 @@ public class CustomerController {
   }
 
   @PostMapping("{id}")
-  public ResponseEntity<CustomerDTO> postMethodName(@PathVariable UUID id,@RequestBody UserRegistrationDTO userRegDTO) {
+  public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable UUID id,@RequestBody UserRegistrationDTO userRegDTO) {
+    UserDTO userDTO  = userService.findByUsername(userRegDTO.getUsername());
+
+    // Initialize user
+    User user = new User();
+    user.setId(userDTO.getId());
+    user.setEmail(userDTO.getEmail());
+    user.setUsername(userDTO.getUsername());
+
+    // Initialize customer
     Customer customer = new Customer();
     customer.setFirstname(userRegDTO.getFirstname());
     customer.setLastname(userRegDTO.getLastname());
@@ -80,7 +94,7 @@ public class CustomerController {
     customer.setDob(userRegDTO.getDob());
     customer.setGender(userRegDTO.getGender());
 
-    return ResponseEntity.ok(customerService.updateCustomer(id, customer));
+    return ResponseEntity.ok(customerService.updateCustomer(id, customer, user));
   }
   
 }
