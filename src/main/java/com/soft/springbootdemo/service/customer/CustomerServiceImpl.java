@@ -13,6 +13,7 @@ import com.soft.springbootdemo.model.Customer;
 import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.model.User;
 import com.soft.springbootdemo.repo.CustomerRepo;
+import com.soft.springbootdemo.repo.UserRepo;
 import com.soft.springbootdemo.service.user.UserService;
 import com.soft.springbootdemo.util.Util;
 
@@ -26,6 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
 
   private final CustomerRepo customerRepo;
   private final UserService userService;
+  private final UserRepo userRepo;
 
   @Override
   public Customer saveCustomer(Customer customer, User user, List<Role> roles) {
@@ -60,7 +62,12 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   public CustomerDTO updateCustomer(UUID uuid, Customer customer, User user) {
     Optional<Customer> optionalCust = customerRepo.findById(uuid);
+    
     if (optionalCust.isPresent()) {
+      Optional<User> optionalUser = userRepo.findById(optionalCust.get().getUser().getId());
+      if(optionalUser.isPresent()){
+        userService.updateUser(optionalUser.get().getId(), optionalUser.get());
+      }
       Customer oldCustomer = optionalCust.get();
       oldCustomer.setFirstname(customer.getFirstname());
       oldCustomer.setLastname(customer.getLastname());
