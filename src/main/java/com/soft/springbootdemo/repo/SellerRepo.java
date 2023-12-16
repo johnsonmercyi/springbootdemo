@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.soft.springbootdemo.model.Seller;
 
-public class SellerRepo extends JpaRepository<Seller, UUID> {
-    
+public interface SellerRepo extends JpaRepository<Seller, UUID> {
+  
 }

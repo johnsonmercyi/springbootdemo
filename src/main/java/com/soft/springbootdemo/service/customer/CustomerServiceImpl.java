@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.soft.springbootdemo.dto.responsedto.CustomerDTO;
+import com.soft.springbootdemo.dto.responsedto.UserDTO;
 import com.soft.springbootdemo.model.Customer;
 import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.model.User;
@@ -62,21 +63,30 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   public CustomerDTO updateCustomer(UUID uuid, Customer customer, User user) {
     Optional<Customer> optionalCust = customerRepo.findById(uuid);
-    
     if (optionalCust.isPresent()) {
       Optional<User> optionalUser = userRepo.findById(optionalCust.get().getUser().getId());
       if(optionalUser.isPresent()){
-        userService.updateUser(optionalUser.get().getId(), optionalUser.get());
-      }
-      Customer oldCustomer = optionalCust.get();
-      oldCustomer.setFirstname(customer.getFirstname());
-      oldCustomer.setLastname(customer.getLastname());
-      oldCustomer.setGender(customer.getGender());
-      oldCustomer.setAddress(customer.getAddress());
-      oldCustomer.setNationality(customer.getNationality());
-      oldCustomer.setDob(customer.getDob());
+        //update user
+        userService.updateUser(optionalUser.get().getId(), user);  
+        // User newUser = optionalUser.get(); 
+        // newUser.setUsername(user.getUsername());
+        // newUser.setPassword(user.getPassword());
+        // newUser.setEmail(user.getEmail());
+        // userRepo.save(newUser); 
+         
+        //update Customer 
+        Customer oldCustomer = optionalCust.get();
+        //oldCustomer.setUser(newUser);
+        oldCustomer.setFirstname(customer.getFirstname());
+        oldCustomer.setLastname(customer.getLastname());
+        oldCustomer.setGender(customer.getGender());
+        oldCustomer.setAddress(customer.getAddress());
+        oldCustomer.setNationality(customer.getNationality());
+        oldCustomer.setDob(customer.getDob());
 
-      return Util.mapCustomerToDTO(customerRepo.save(oldCustomer), true);
+        return Util.mapCustomerToDTO(customerRepo.save(oldCustomer), true);
+      }
+
     }
     return null;
   }

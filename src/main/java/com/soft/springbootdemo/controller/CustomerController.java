@@ -1,6 +1,5 @@
 package com.soft.springbootdemo.controller;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +22,6 @@ import com.soft.springbootdemo.model.User;
 import com.soft.springbootdemo.service.customer.CustomerService;
 import com.soft.springbootdemo.service.role.RoleService;
 import com.soft.springbootdemo.service.user.UserService;
-import com.soft.springbootdemo.util.Util;
 
 import lombok.RequiredArgsConstructor;
 
@@ -75,14 +73,15 @@ public class CustomerController {
     
   }
 
-  @PostMapping("{id}")
-  public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable UUID id,@RequestBody UserRegistrationDTO userRegDTO) {
+  @PostMapping("/{id}")
+  public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable UUID id, @RequestBody UserRegistrationDTO userRegDTO) {
     UserDTO userDTO  = userService.findByUsername(userRegDTO.getUsername());
 
     // Initialize user
     User user = new User();
     user.setId(userDTO.getId());
     user.setEmail(userDTO.getEmail());
+    user.setPassword(userDTO.getPassword());
     user.setUsername(userDTO.getUsername());
 
     // Initialize customer
