@@ -70,7 +70,7 @@ public class SellerController {
         return ResponseEntity.ok(sellerService.saveSeller(seller, user, roles));
 
     }
-
+    //Update Seller
     @PostMapping("/{id}")
     public ResponseEntity<SellerDTO> updateSeller(@PathVariable UUID id, @RequestBody UserRegistrationDTO userRegDTO){
         UserDTO userDTO = userService.findByUsername(userRegDTO.getUsername());

@@ -59,7 +59,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
     return customerDTOs;// Return all customers
   }
-
+  
+  //UpdateCustomer
   @Override
   public CustomerDTO updateCustomer(UUID uuid, Customer customer, User user) {
     Optional<Customer> optionalCust = customerRepo.findById(uuid);
