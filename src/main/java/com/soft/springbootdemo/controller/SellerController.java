@@ -35,16 +35,19 @@ public class SellerController {
     private final RoleService roleService;
     private final UserService userService;
 
+    //Get all sellers
     @GetMapping
     public ResponseEntity<Collection<SellerDTO>> findAllSellers(){
         return ResponseEntity.ok(sellerService.findAll());
     }
 
+    //Get Seller by id
     @GetMapping("/{id}")
     public ResponseEntity<Optional<SellerDTO>> findSellerById(@PathVariable UUID id){
         return ResponseEntity.ok(sellerService.findById(id));
     }
 
+    //Save Seller
     @PostMapping
     public ResponseEntity<Seller> saveSeller(@RequestBody UserRegistrationDTO userRegDTO){
         //Prepare user
