@@ -72,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
         
        
         
-        // userRepo.save(newUser); 
+       
 
         //update Customer 
         Customer oldCustomer = optionalCust.get();
