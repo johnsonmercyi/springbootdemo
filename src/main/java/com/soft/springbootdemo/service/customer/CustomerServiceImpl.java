@@ -71,7 +71,7 @@ public class CustomerServiceImpl implements CustomerService {
         
         
        
-        // newUser.setEmail(user.getEmail());
+        
         // userRepo.save(newUser); 
 
         //update Customer 
