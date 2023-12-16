@@ -50,5 +50,4 @@ public class Customer {
     this(UUID.randomUUID(), null, null, null, null, null, null, null, null, null);
   }
 
-
 }
