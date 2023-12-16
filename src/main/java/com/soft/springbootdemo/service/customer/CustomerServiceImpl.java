@@ -70,7 +70,7 @@ public class CustomerServiceImpl implements CustomerService {
         userService.updateUser(optionalUser.get().getId(), user);  
         
         
-        // newUser.setPassword(user.getPassword());
+       
         // newUser.setEmail(user.getEmail());
         // userRepo.save(newUser); 
 
