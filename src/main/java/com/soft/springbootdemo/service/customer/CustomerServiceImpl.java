@@ -68,12 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
       if(optionalUser.isPresent()){
         //update user
         userService.updateUser(optionalUser.get().getId(), user);  
-        
-        
-       
-        
-       
-
+      
         //update Customer 
         Customer oldCustomer = optionalCust.get();
         //oldCustomer.setUser(newUser);
