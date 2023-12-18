@@ -26,10 +26,12 @@ import com.soft.springbootdemo.model.Seller;
 import com.soft.springbootdemo.model.User;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @RestController
 @RequestMapping("/api/sellers")
 @RequiredArgsConstructor
+@Log4j2
 public class SellerController {
     private final SellerService sellerService;
     private final RoleService roleService;
@@ -84,6 +86,8 @@ public class SellerController {
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
         user.setUsername(userDTO.getUsername());
+
+        log.info("EMAIL: {}", userDTO.getEmail());
 
         //Initialize seller
         Seller seller = new Seller();
