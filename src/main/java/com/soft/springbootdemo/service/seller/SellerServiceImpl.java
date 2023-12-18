@@ -20,69 +20,64 @@ import com.soft.springbootdemo.util.Util;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
-
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class SellerServiceImpl implements SellerService {
 
-    private final SellerRepo sellerRepo;
-    private final UserService userService;
-    private final UserRepo userRepo;
+  private final SellerRepo sellerRepo;
+  private final UserService userService;
+  private final UserRepo userRepo;
 
-    //Save seller
-    @Override
-    public Seller saveSeller(Seller seller, User user, List<Role> roles) {
-        //save user first
-        userService.saveUserWithRoles(user, roles);
-        //Then save the seller 
-        return sellerRepo.save(seller);
+  // Save seller
+  @Override
+  public Seller saveSeller(Seller seller, User user, List<Role> roles) {
+    // save user first
+    userService.saveUserWithRoles(user, roles);
+    // Then save the seller
+    return sellerRepo.save(seller);
+  }
+
+  @Override
+  public Optional<SellerDTO> findById(UUID id) {
+    Optional<Seller> optionalSeller = sellerRepo.findById(id);
+    if (optionalSeller.isPresent()) {
+      Seller seller = optionalSeller.get();
+      return Optional.ofNullable(Util.mapSellerToDTO(seller, true));
     }
+    return Optional.empty();
+  }
 
-    @Override
-    public Optional<SellerDTO> findById(UUID id) {
-        Optional<Seller> optionalSeller = sellerRepo.findById(id);
-        if(optionalSeller.isPresent()){
-            Seller seller = optionalSeller.get();
-            return Optional.ofNullable(Util.mapSellerToDTO(seller, true));
-        }
-        return Optional.empty();
+  @Override
+  public Collection<SellerDTO> findAll() {
+    List<Seller> sellers = sellerRepo.findAll();
+    List<SellerDTO> sellerDTOs = new ArrayList<>();
+
+    for (Seller seller : sellers) {
+      sellerDTOs.add(Util.mapSellerToDTO(seller, false));
     }
+    return sellerDTOs; // returns all sellers
+  }
 
-    @Override
-    public Collection<SellerDTO> findAll() {
-        List<Seller> sellers = sellerRepo.findAll();
-        List<SellerDTO> sellerDTOs = new ArrayList<>();
+  @Override
+  public SellerDTO updateSeller(UUID uuid, Seller seller, User user) {
+    Optional<Seller> opSeller = sellerRepo.findById(uuid);
+    if (opSeller.isPresent()) {
+      Seller oldSeller = opSeller.get();
+      // update user
+      userService.updateUser(user.getId(), user);
 
-        for(Seller seller : sellers){
-            sellerDTOs.add(Util.mapSellerToDTO(seller, false));
-        }
-        return sellerDTOs; // returns all sellers
+      // update Seller
+      oldSeller.setFirstname(seller.getFirstname());
+      oldSeller.setLastname(seller.getLastname());
+      oldSeller.setGender(seller.getGender());
+      oldSeller.setAddress(seller.getAddress());
+      oldSeller.setNationality(seller.getNationality());
+      oldSeller.setDob(seller.getDob());
+
+      return Util.mapSellerToDTO(sellerRepo.save(oldSeller), true);
     }
+    return null;
+  }
 
-    @Override
-    public SellerDTO updateSeller(UUID uuid, Seller seller, User user) {
-        Optional<Seller> opSeller = sellerRepo.findById(uuid);
-        if (opSeller.isPresent()){
-            Optional<User> opUser = userRepo.findById(opSeller.get().getUser().getId());
-            if(opUser.isPresent()){
-                //update user
-                userService.updateUser(opUser.get().getId(), user);
-
-                //update Seller
-                Seller oldSeller = opSeller.get();
-                oldSeller.setFirstname(seller.getFirstname());
-                oldSeller.setLastname(seller.getLastname());
-                oldSeller.setGender(seller.getGender());
-                oldSeller.setAddress(seller.getAddress());
-                oldSeller.setNationality(seller.getNationality());
-                oldSeller.setDob(seller.getDob());
-
-                return Util.mapSellerToDTO(sellerRepo.save(oldSeller), true);
-
-            }
-        }
-        return null;
-    }
-    
 }

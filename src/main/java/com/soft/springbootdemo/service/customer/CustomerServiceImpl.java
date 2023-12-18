@@ -59,29 +59,26 @@ public class CustomerServiceImpl implements CustomerService {
     }
     return customerDTOs;// Return all customers
   }
-  
-  //UpdateCustomer
+
+  // UpdateCustomer
   @Override
   public CustomerDTO updateCustomer(UUID uuid, Customer customer, User user) {
     Optional<Customer> optionalCust = customerRepo.findById(uuid);
     if (optionalCust.isPresent()) {
-      Optional<User> optionalUser = userRepo.findById(optionalCust.get().getUser().getId());
-      if(optionalUser.isPresent()){
-        //update user
-        userService.updateUser(optionalUser.get().getId(), user);  
+      // update user
+      userService.updateUser(user.getId(), user);
       
-        //update Customer 
-        Customer oldCustomer = optionalCust.get();
-        //oldCustomer.setUser(newUser);
-        oldCustomer.setFirstname(customer.getFirstname());
-        oldCustomer.setLastname(customer.getLastname());
-        oldCustomer.setGender(customer.getGender());
-        oldCustomer.setAddress(customer.getAddress());
-        oldCustomer.setNationality(customer.getNationality());
-        oldCustomer.setDob(customer.getDob());
+      // update Customer
+      Customer oldCustomer = optionalCust.get();
+      // oldCustomer.setUser(newUser);
+      oldCustomer.setFirstname(customer.getFirstname());
+      oldCustomer.setLastname(customer.getLastname());
+      oldCustomer.setGender(customer.getGender());
+      oldCustomer.setAddress(customer.getAddress());
+      oldCustomer.setNationality(customer.getNationality());
+      oldCustomer.setDob(customer.getDob());
 
-        return Util.mapCustomerToDTO(customerRepo.save(oldCustomer), true);
-      }
+      return Util.mapCustomerToDTO(customerRepo.save(oldCustomer), true);
 
     }
     return null;
