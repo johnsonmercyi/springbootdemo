@@ -83,9 +83,9 @@ public class SellerController {
         //Initialize user
         User user = new User();
         user.setId(userDTO.getId());
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
-        user.setUsername(userDTO.getUsername());
+        user.setEmail(userRegDTO.getEmail());
+        user.setPassword(userRegDTO.getPassword());
+        user.setUsername(userRegDTO.getUsername());
 
         log.info("EMAIL: {}", userDTO.getEmail());
 
