@@ -9,4 +9,5 @@ import com.soft.springbootdemo.service.Service;
 public interface ProductService extends Service<Product> {
   public Product findByRefNo(UUID id);
   public Collection<Product> findByCategoryName(String catName);
+  public Collection<Product> findByCategoryId(UUID catId);
 }

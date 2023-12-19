@@ -1,11 +1,12 @@
 package com.soft.springbootdemo.service.product;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.soft.springbootdemo.model.Product;
@@ -13,10 +14,12 @@ import com.soft.springbootdemo.repo.ProductRepo;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Log4j2
 public class ProductServiceImpl implements ProductService {
   private final ProductRepo productRepo;
 
@@ -67,5 +70,12 @@ public class ProductServiceImpl implements ProductService {
     }
     return holdProd;
   }
+
+  @Override
+  public Collection<Product> findByCategoryId(UUID catId) {
+    return productRepo.findAll().stream()
+    .filter(product -> product.getCategory().getId().equals(catId))
+    .toList();
+  } 
 
 }

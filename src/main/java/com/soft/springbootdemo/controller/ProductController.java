@@ -21,14 +21,13 @@ import com.soft.springbootdemo.model.Product;
 import com.soft.springbootdemo.service.category.CategoryService;
 import com.soft.springbootdemo.service.product.ProductService;
 
-import jakarta.persistence.Column;
 import lombok.RequiredArgsConstructor;
-// import lombok.extern.log4j.Log4j2;
+import lombok.extern.log4j.Log4j2;
 
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
-// @Log4j2
+@Log4j2
 public class ProductController {
   private final ProductService productService;
   private final CategoryService categoryService;
@@ -46,6 +45,12 @@ public class ProductController {
   @GetMapping("/catname/{catName}")
   public ResponseEntity<Collection<Product>> findProductByCatName(@PathVariable String catName) {
     return ResponseEntity.ok(productService.findByCategoryName(catName));
+  }
+
+  @GetMapping("/cat_id/{catId}")
+  public ResponseEntity<Collection<Product>> findProductByCatId(@PathVariable UUID catId) {
+    log.info("Cat ID: {}", catId);
+    return ResponseEntity.ok(productService.findByCategoryId(catId));
   }
 
   @PostMapping
