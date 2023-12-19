@@ -42,7 +42,7 @@ public class ProductController {
   public ResponseEntity<Product> findProductById(@PathVariable UUID id) {
     return ResponseEntity.ok(productService.findById(id).get());
   }
-
+  //Get products by Category Name
   @GetMapping("/catname/{catName}")
   public ResponseEntity<Collection<Product>> findProductByCatName(@PathVariable String catName) {
     return ResponseEntity.ok(productService.findByCategoryName(catName));
@@ -74,6 +74,7 @@ public class ProductController {
     // return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).build();
   }
 
+  //Update Product
   @PostMapping("/{id}")
   public ResponseEntity<Product> updateProduct(@PathVariable UUID id, @RequestBody ProductDTO productDTO){
     Optional<Product> product = productService.findById(id);
