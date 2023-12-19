@@ -49,16 +49,17 @@ public class ProductServiceImpl implements ProductService {
   public Collection<Product> findByCategoryName(String catName) {
     List<Product> products = productRepo.findAll();
     List<Product> holdProd = new ArrayList<>();
+    //I will need map stream explanation
+    
     // List<Product> prod = products.stream()
     //   .map(product -> {
-    //     Product p = new Product();
-    //     if(product.getCategory().getName().equals(catName)){
-    //       p = product;
+    //     if(product.getCategory().getName().equalsIgnoreCase(catName)){
+    //       holdProd.add(product);
     //     }
-    //     return p;
+    //     return product;
     //   })
     //   .toList();  
-    // return prod;
+   
     for(Product p : products){
       if(p.getCategory().getName().equalsIgnoreCase(catName)){
         holdProd.add(p);
