@@ -21,6 +21,7 @@ import com.soft.springbootdemo.model.Product;
 import com.soft.springbootdemo.service.category.CategoryService;
 import com.soft.springbootdemo.service.product.ProductService;
 
+import jakarta.persistence.Column;
 import lombok.RequiredArgsConstructor;
 // import lombok.extern.log4j.Log4j2;
 
@@ -40,6 +41,11 @@ public class ProductController {
   @GetMapping("/{id}")
   public ResponseEntity<Product> findProductById(@PathVariable UUID id) {
     return ResponseEntity.ok(productService.findById(id).get());
+  }
+
+  @GetMapping("/catname/{catName}")
+  public ResponseEntity<Collection<Product>> findProductByCatName(@PathVariable String catName) {
+    return ResponseEntity.ok(productService.findByCategoryName(catName));
   }
 
   @PostMapping
@@ -66,6 +72,24 @@ public class ProductController {
     return ResponseEntity.badRequest().body(error);
 
     // return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).build();
+  }
+
+  @PostMapping("/{id}")
+  public ResponseEntity<Product> updateProduct(@PathVariable UUID id, @RequestBody ProductDTO productDTO){
+    Optional<Product> product = productService.findById(id);
+
+    if (product.isPresent()){
+      Product pdt = product.get();
+      pdt.setName(productDTO.getName());
+      pdt.setDescription(productDTO.getDescription());
+      pdt.setCost(productDTO.getCost());
+      pdt.setPrice(productDTO.getPrice());
+      pdt.setRefNo(productDTO.getRefNo());
+
+      return ResponseEntity.ok(productService.update(id, pdt));
+
+    }
+    return null;
   }
 
 }
