@@ -1,7 +1,6 @@
 package com.soft.springbootdemo.service.product;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +8,10 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.soft.springbootdemo.dto.ProductDTO;
+import com.soft.springbootdemo.model.Category;
 import com.soft.springbootdemo.model.Product;
+import com.soft.springbootdemo.repo.CategoryRepo;
 import com.soft.springbootdemo.repo.ProductRepo;
 
 import jakarta.transaction.Transactional;
@@ -22,6 +24,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class ProductServiceImpl implements ProductService {
   private final ProductRepo productRepo;
+  private final CategoryRepo categoryRepo;
 
   @Override
   public Product save(Product product) {
@@ -41,6 +44,29 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public Product update(UUID uuid, Product product) {
     return productRepo.save(product);
+  }
+
+  @Override
+  public Product update(UUID id, ProductDTO productDTO) {
+    Optional<Product> product = productRepo.findById(id);
+    Optional<Category> category = categoryRepo.findById(productDTO.getCategoryId());
+    if (product.isPresent()) {
+
+      Product oldProduct = product.get();
+
+      if (category.isPresent()) {
+        oldProduct.setCategory(category.get());
+      }
+
+      oldProduct.setName(productDTO.getName());
+      oldProduct.setDescription(productDTO.getDescription());
+      oldProduct.setCost(productDTO.getCost());
+      oldProduct.setPrice(productDTO.getPrice());
+
+      return productRepo.save(oldProduct);
+    }
+
+    return null;
   }
 
   @Override
@@ -76,6 +102,8 @@ public class ProductServiceImpl implements ProductService {
     return productRepo.findAll().stream()
     .filter(product -> product.getCategory().getId().equals(catId))
     .toList();
-  } 
+  }
+
+  
 
 }

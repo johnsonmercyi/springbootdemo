@@ -82,20 +82,7 @@ public class ProductController {
   //Update Product
   @PostMapping("/{id}")
   public ResponseEntity<Product> updateProduct(@PathVariable UUID id, @RequestBody ProductDTO productDTO){
-    Optional<Product> product = productService.findById(id);
-
-    if (product.isPresent()){
-      Product pdt = product.get();
-      pdt.setName(productDTO.getName());
-      pdt.setDescription(productDTO.getDescription());
-      pdt.setCost(productDTO.getCost());
-      pdt.setPrice(productDTO.getPrice());
-      pdt.setRefNo(productDTO.getRefNo());
-
-      return ResponseEntity.ok(productService.update(id, pdt));
-
-    }
-    return null;
+    return ResponseEntity.ok(productService.update(id, productDTO));
   }
 
 }
