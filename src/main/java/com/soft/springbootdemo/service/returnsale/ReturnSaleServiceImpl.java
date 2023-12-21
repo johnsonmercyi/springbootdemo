@@ -58,10 +58,9 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
                 returnSale.setSale(sale.get());
                 returnSale.setQuantity(returnSaleDTO.getQuantity());
                 returnSale.setTotalPrice(returnSaleDTO.getTotalPrice());
+                //save
+                return returnSaleRepo.save(returnSale);
             }
-
-            //save
-            return returnSaleRepo.save(returnSale);
         }
         return null;
     }
