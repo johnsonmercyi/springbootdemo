@@ -33,8 +33,8 @@ public class ReturnSaleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<ReturnSale>> findSaleById(@PathVariable UUID id){
-        return ResponseEntity.ok(returnSaleService.findById(id));
+    public ResponseEntity<Optional<ReturnSale>> findReturnSaleById(@PathVariable UUID id){
+        return ResponseEntity.ofNullable(returnSaleService.findById(id));
     }
     
     @PostMapping

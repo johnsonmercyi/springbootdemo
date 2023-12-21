@@ -42,25 +42,23 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
     }
 
     @Override
-    public ReturnSale update(UUID uuid, ReturnSale t) {
+    public ReturnSale update(UUID uuid, ReturnSale returnSale) {
         return null;
     }
 
     @Override
     public ReturnSale save(ReturnSaleDTO returnSaleDTO) {
-        Optional<Product> product = productRepo.findById(returnSaleDTO.getProductId());
+        //Optional<Product> product = productRepo.findById(returnSaleDTO.getProductId());
         Optional<Sale> sale = saleRepo.findById(returnSaleDTO.getSaleId());
 
-        if(product.isPresent() && sale.isPresent()){
-            if(sale.get().getQuantity() == returnSaleDTO.getQuantity()){
-                ReturnSale returnSale = new ReturnSale();
-                returnSale.setProduct(product.get());
-                returnSale.setSale(sale.get());
-                returnSale.setQuantity(returnSaleDTO.getQuantity());
-                returnSale.setTotalPrice(returnSaleDTO.getTotalPrice());
-                //save
-                return returnSaleRepo.save(returnSale);
-            }
+        if(sale.isPresent()){
+            ReturnSale returnSale = new ReturnSale();
+            //returnSale.setProduct(product.get());
+            returnSale.setSale(sale.get());
+            //returnSale.setQuantity(returnSaleDTO.getQuantity());
+            returnSale.setTotalPrice(returnSaleDTO.getTotalPrice());
+            //save
+            return returnSaleRepo.save(returnSale);
         }
         return null;
     }
