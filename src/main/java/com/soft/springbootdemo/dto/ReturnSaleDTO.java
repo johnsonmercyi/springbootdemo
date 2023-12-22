@@ -7,14 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReturnSaleDTO {
-    private UUID id;
-    private UUID saleId;
-    private double totalPrice;
-    private LocalDateTime created;
-    private LocalDateTime updated;
+  private UUID id;
+  private UUID saleId;
+  private double totalPrice;
+  private LocalDateTime created;
+  private LocalDateTime updated;
 }

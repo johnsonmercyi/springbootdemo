@@ -21,7 +21,7 @@ public class ReturnSale {
   @Id
   private UUID id;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "sale_id", referencedColumnName = "id", nullable = false)
   private Sale sale;
 
