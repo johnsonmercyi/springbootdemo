@@ -7,10 +7,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.soft.springbootdemo.dto.ReturnSaleDTO;
-import com.soft.springbootdemo.model.Product;
 import com.soft.springbootdemo.model.ReturnSale;
 import com.soft.springbootdemo.model.Sale;
-import com.soft.springbootdemo.repo.ProductRepo;
 import com.soft.springbootdemo.repo.ReturnSaleRepo;
 import com.soft.springbootdemo.repo.SaleRepo;
 
@@ -23,12 +21,24 @@ import lombok.RequiredArgsConstructor;
 public class ReturnSaleServiceImpl implements ReturnSaleService {
 
   private final ReturnSaleRepo returnSaleRepo;
-  private final ProductRepo productRepo;
   private final SaleRepo saleRepo;
 
   @Override
   public ReturnSale save(ReturnSale returnSale) {
     return returnSaleRepo.save(returnSale);
+  }
+
+  @Override
+  public ReturnSale save(ReturnSaleDTO returnSaleDTO) {
+    Optional<Sale> sale = saleRepo.findById(returnSaleDTO.getSaleId());
+
+    if (sale.isPresent()) {
+      ReturnSale returnSale = new ReturnSale();
+      returnSale.setSale(sale.get());
+      // save
+      return returnSaleRepo.save(returnSale);
+    }
+    return null;
   }
 
   @Override
@@ -43,24 +53,6 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
 
   @Override
   public ReturnSale update(UUID uuid, ReturnSale returnSale) {
-    return null;
-  }
-
-  @Override
-  public ReturnSale save(ReturnSaleDTO returnSaleDTO) {
-    // Optional<Product> product =
-    // productRepo.findById(returnSaleDTO.getProductId());
-    Optional<Sale> sale = saleRepo.findById(returnSaleDTO.getSaleId());
-
-    if (sale.isPresent()) {
-      ReturnSale returnSale = new ReturnSale();
-      // returnSale.setProduct(product.get());
-      returnSale.setSale(sale.get());
-      // returnSale.setQuantity(returnSaleDTO.getQuantity());
-      returnSale.setTotalPrice(returnSaleDTO.getTotalPrice());
-      // save
-      return returnSaleRepo.save(returnSale);
-    }
     return null;
   }
 

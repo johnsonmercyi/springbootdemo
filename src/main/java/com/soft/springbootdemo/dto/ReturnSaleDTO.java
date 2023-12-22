@@ -11,9 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReturnSaleDTO {
-  private UUID id;
-  private UUID saleId;
-  private double totalPrice;
-  private LocalDateTime created;
-  private LocalDateTime updated;
+    private UUID id;
+    private UUID saleId;
+    private LocalDateTime created;
+    private LocalDateTime updated;
 }

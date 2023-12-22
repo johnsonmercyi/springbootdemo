@@ -25,9 +25,6 @@ public class ReturnSale {
   @JoinColumn(name = "sale_id", referencedColumnName = "id", nullable = false)
   private Sale sale;
 
-  @Column(nullable = false)
-  private double totalPrice;
-
   @CreationTimestamp
   @Column(nullable = false)
   private LocalDateTime created;
@@ -35,6 +32,6 @@ public class ReturnSale {
   private LocalDateTime updated;
 
   public ReturnSale() {
-    this(UUID.randomUUID(), null, 0d, null, null);
+    this(UUID.randomUUID(), null, null, null);
   }
 }
