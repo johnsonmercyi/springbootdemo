@@ -23,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 public class ReturnSaleServiceImpl implements ReturnSaleService {
 
     private final ReturnSaleRepo returnSaleRepo;
-    private final ProductRepo productRepo;
     private final SaleRepo saleRepo;
     
     @Override
@@ -48,15 +47,11 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
 
     @Override
     public ReturnSale save(ReturnSaleDTO returnSaleDTO) {
-        //Optional<Product> product = productRepo.findById(returnSaleDTO.getProductId());
         Optional<Sale> sale = saleRepo.findById(returnSaleDTO.getSaleId());
 
         if(sale.isPresent()){
             ReturnSale returnSale = new ReturnSale();
-            //returnSale.setProduct(product.get());
             returnSale.setSale(sale.get());
-            //returnSale.setQuantity(returnSaleDTO.getQuantity());
-            returnSale.setTotalPrice(returnSaleDTO.getTotalPrice());
             //save
             return returnSaleRepo.save(returnSale);
         }
