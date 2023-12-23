@@ -5,10 +5,13 @@ import java.util.List;
 
 import com.soft.springbootdemo.dto.responsedto.CustomerDTO;
 import com.soft.springbootdemo.dto.responsedto.RoleDTO;
+import com.soft.springbootdemo.dto.responsedto.SaleResponseDTO;
+import com.soft.springbootdemo.dto.responsedto.SaleResponseDTO.CustomCustomer;
 import com.soft.springbootdemo.dto.responsedto.SellerDTO;
 import com.soft.springbootdemo.dto.responsedto.UserDTO;
 import com.soft.springbootdemo.model.Customer;
 import com.soft.springbootdemo.model.Role;
+import com.soft.springbootdemo.model.Sale;
 import com.soft.springbootdemo.model.Seller;
 import com.soft.springbootdemo.model.User;
 import com.soft.springbootdemo.model.UserRole;
@@ -45,6 +48,18 @@ public class Util {
   public static SellerDTO mapSellerToDTO(Seller seller, boolean fetchRoles){
     UserDTO userDTO = mapUserToDTO(seller.getUser(), fetchRoles);
     return new SellerDTO(seller.getId(), userDTO, seller.getFirstname(), seller.getLastname(), seller.getGender(), seller.getDob(), seller.getAddress(), seller.getNationality(), seller.getCreated(), seller.getUpdated());
+  }
+
+  public static SaleResponseDTO convertSaleToResponseDTO(Sale sale) {
+    CustomCustomer cCust = new SaleResponseDTO.CustomCustomer();
+    
+    Customer customer = sale.getCustomer();
+    String customerName = String.format("%s %s", customer.getFirstname(), customer.getLastname());
+    cCust.setCustomerId(customer.getId());
+    cCust.setCustomerName(customerName);
+    cCust.setCustomerEmail(customer.getUser().getEmail());
+
+    return new SaleResponseDTO(sale.getId(), cCust, sale.getSaleTotal(), sale.getCreated(), sale.getUpdated());
   }
 
   // ⚠️ Please this is not to be used yet!

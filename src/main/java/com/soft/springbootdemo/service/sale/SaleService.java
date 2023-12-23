@@ -1,9 +1,15 @@
 package com.soft.springbootdemo.service.sale;
 
-import com.soft.springbootdemo.dto.SaleDTO;
-import com.soft.springbootdemo.model.Sale;
-import com.soft.springbootdemo.service.Service;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.UUID;
 
-public interface SaleService extends Service<Sale> {
-  public Sale save(SaleDTO saleTO);
+import com.soft.springbootdemo.dto.requestdto.SaleRequestDTO;
+import com.soft.springbootdemo.dto.responsedto.SaleResponseDTO;
+
+public interface SaleService {
+  public SaleResponseDTO save(SaleRequestDTO dto);
+  public Optional<SaleResponseDTO> findById(UUID id);
+  public Collection<SaleResponseDTO> findAll();
+  public SaleResponseDTO update(UUID uuid, SaleRequestDTO t);
 }

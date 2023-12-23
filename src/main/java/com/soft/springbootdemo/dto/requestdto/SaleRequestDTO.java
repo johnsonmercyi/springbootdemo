@@ -1,4 +1,4 @@
-package com.soft.springbootdemo.dto;
+package com.soft.springbootdemo.dto.requestdto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -10,11 +10,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaleDTO {
+public class SaleRequestDTO {
   private UUID id;
-  private UUID productId;
-  private int quantity;
-  private double totalPrice;
+  private UUID customerId;
+  private double saleTotal;
   private LocalDateTime created;
   private LocalDateTime updated;
 }

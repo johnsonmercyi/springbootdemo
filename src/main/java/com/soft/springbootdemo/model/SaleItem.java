@@ -14,18 +14,29 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Entity
-@Data
 @AllArgsConstructor
-public class Sale {
+@Data
+public class SaleItem {
   @Id
   private UUID id;
 
   @ManyToOne
-  @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
-  private Customer customer;
+  @JoinColumn(name = "sale_id", referencedColumnName = "id", nullable = false)
+  private Sale sale;
+
+  @ManyToOne
+  @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
+  private Product product;
+
+  @ManyToOne
+  @JoinColumn(name = "seller_id", referencedColumnName = "id", nullable = false)
+  private Seller seller;
 
   @Column(nullable = false)
-  private double saleTotal;
+  private int quantity;
+
+  @Column(nullable = false)
+  private double total;
 
   @CreationTimestamp
   @Column(nullable = false)
@@ -33,7 +44,7 @@ public class Sale {
 
   private LocalDateTime updated;
 
-  public Sale() {
-    this(UUID.randomUUID(), null, 0, null, null);
+  public SaleItem() {
+    this(UUID.randomUUID(), null, null, null, 0, 0d, null, null);
   }
 }

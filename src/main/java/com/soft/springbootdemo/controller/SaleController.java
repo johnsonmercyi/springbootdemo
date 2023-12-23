@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.soft.springbootdemo.dto.SaleDTO;
+import com.soft.springbootdemo.dto.requestdto.SaleRequestDTO;
+import com.soft.springbootdemo.dto.responsedto.SaleResponseDTO;
 import com.soft.springbootdemo.model.Sale;
 import com.soft.springbootdemo.service.sale.SaleService;
 
@@ -29,17 +30,17 @@ public class SaleController {
   private final SaleService saleService;
 
   @GetMapping
-  public ResponseEntity<Collection<Sale>> findAllSales() {
+  public ResponseEntity<Collection<SaleResponseDTO>> findAllSales() {
     return ResponseEntity.ok(saleService.findAll());
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Optional<Sale>> findSaleById(@PathVariable UUID id) {
+  public ResponseEntity<Optional<SaleResponseDTO>> findSaleById(@PathVariable UUID id) {
     return ResponseEntity.ofNullable(saleService.findById(id));
   }
 
   @PostMapping
-  public ResponseEntity<Sale> saveSale(@RequestBody SaleDTO saleDTO) {
+  public ResponseEntity<SaleResponseDTO> saveSale(@RequestBody SaleRequestDTO saleDTO) {
     return ResponseEntity.ok(saleService.save(saleDTO));
   }
 

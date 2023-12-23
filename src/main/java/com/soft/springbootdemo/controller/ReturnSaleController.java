@@ -24,20 +24,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequiredArgsConstructor
 public class ReturnSaleController {
 
-  private final ReturnSaleService returnSaleService;
+  // private final ReturnSaleService returnSaleService;
 
-  @GetMapping
-  public ResponseEntity<Collection<ReturnSale>> findAllReturnSales() {
-    return ResponseEntity.ok(returnSaleService.findAll());
-  }
+  // @GetMapping
+  // public ResponseEntity<Collection<ReturnSale>> findAllReturnSales() {
+  //   return ResponseEntity.ok(returnSaleService.findAll());
+  // }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<Optional<ReturnSale>> findReturnSaleById(@PathVariable UUID id) {
-    return ResponseEntity.ofNullable(returnSaleService.findById(id));
-  }
+  // @GetMapping("/{id}")
+  // public ResponseEntity<Optional<ReturnSale>> findReturnSaleById(@PathVariable UUID id) {
+  //   return ResponseEntity.ofNullable(returnSaleService.findById(id));
+  // }
 
-  @PostMapping
-  public ResponseEntity<ReturnSale> saveReturnSale(@RequestBody ReturnSaleDTO returnSaleDTO) {
-    return ResponseEntity.ok(returnSaleService.save(returnSaleDTO));
-  }
+  // @PostMapping
+  // public ResponseEntity<ReturnSale> saveReturnSale(@RequestBody ReturnSaleDTO returnSaleDTO) {
+  //   return ResponseEntity.ok(returnSaleService.save(returnSaleDTO));
+  // }
 }
