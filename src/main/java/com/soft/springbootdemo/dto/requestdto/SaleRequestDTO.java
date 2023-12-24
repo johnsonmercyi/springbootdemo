@@ -5,10 +5,9 @@ import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+// @NoArgsConstructor
 @AllArgsConstructor
 public class SaleRequestDTO {
   private UUID id;
@@ -16,4 +15,8 @@ public class SaleRequestDTO {
   private double saleTotal;
   private LocalDateTime created;
   private LocalDateTime updated;
+
+  public SaleRequestDTO() {
+    this(UUID.randomUUID(), null, 0d, null, null);
+  }
 }

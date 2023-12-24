@@ -3,18 +3,22 @@ package com.soft.springbootdemo.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.soft.springbootdemo.dto.responsedto.CategoryResponseDTO;
 import com.soft.springbootdemo.dto.responsedto.CustomerDTO;
 import com.soft.springbootdemo.dto.responsedto.RoleDTO;
+import com.soft.springbootdemo.dto.responsedto.SaleItemResponseDTO;
+import com.soft.springbootdemo.dto.responsedto.SaleItemResponseDTO.CustomProduct;
+import com.soft.springbootdemo.dto.responsedto.SaleItemResponseDTO.CustomSeller;
 import com.soft.springbootdemo.dto.responsedto.SaleResponseDTO;
 import com.soft.springbootdemo.dto.responsedto.SaleResponseDTO.CustomCustomer;
 import com.soft.springbootdemo.dto.responsedto.SellerDTO;
 import com.soft.springbootdemo.dto.responsedto.UserDTO;
 import com.soft.springbootdemo.model.Customer;
-import com.soft.springbootdemo.model.Role;
+import com.soft.springbootdemo.model.Product;
 import com.soft.springbootdemo.model.Sale;
+import com.soft.springbootdemo.model.SaleItem;
 import com.soft.springbootdemo.model.Seller;
 import com.soft.springbootdemo.model.User;
-import com.soft.springbootdemo.model.UserRole;
 
 public class Util {
   public static UserDTO mapUserToDTO(User user, boolean fetchRoles) {
@@ -62,32 +66,58 @@ public class Util {
     return new SaleResponseDTO(sale.getId(), cCust, sale.getSaleTotal(), sale.getCreated(), sale.getUpdated());
   }
 
-  // ⚠️ Please this is not to be used yet!
-  public static User mapUserDTOToUser(UserDTO userDTO) {
-    User user = new User();
+  public static SaleItemResponseDTO convertSaleItemToResponseDTO(SaleItem saleItem) {
 
-    user.setId(userDTO.getId());
-    user.setUsername(userDTO.getUsername());
-    user.setPassword(userDTO.getPassword());
-    user.setEmail(userDTO.getEmail());
-    user.setStatus(userDTO.getStatus());
-    user.setCreated(userDTO.getCreated());
-    user.setUpdated(userDTO.getUpdated());
+    SaleResponseDTO sale = new SaleResponseDTO();
+    Sale mainSale = saleItem.getSale();
+    sale.setId(mainSale.getId());
+    sale.setSaleTotal(saleItem.getTotal());
+    sale.setCreated(mainSale.getCreated());
+    sale.setUpdated(mainSale.getUpdated());
 
+    Customer customer = saleItem.getSale().getCustomer();
+    String customerName = String.format(
+      "%s %s", 
+      customer.getFirstname(), 
+      customer.getLastname()
+    );
 
-    List<UserRole> userRoles = userDTO.getUserRoles() // fetch UserRoles
-        .stream() // Convert to stream
-        .map(role -> {
-          // Map UserRoles to RoleDTO object
-          UserRole userRole = new UserRole();
-          userRole.setUser(user);
-          userRole.setRole(new Role(role.getId(), role.getName(), role.getCreated(), role.getCreated(), new ArrayList<UserRole>()));
+    sale.setCustomer(
+      new SaleResponseDTO.CustomCustomer(
+        customer.getId(), customerName, customer.getUser().getEmail()));
 
-          return userRole;
-        }).toList();
+    
+    CustomProduct cstProduct = new SaleItemResponseDTO.CustomProduct();
+    Product mainProduct = saleItem.getProduct();
+    cstProduct.setId(mainProduct.getId());
+    cstProduct.setName(mainProduct.getName());
+    cstProduct.setRefNo(mainProduct.getRefNo());
+    cstProduct.setPrice(mainProduct.getPrice());
+    cstProduct.setCost(mainProduct.getCost());
+    cstProduct.setCategory(
+      new CategoryResponseDTO(
+        mainProduct.getCategory().getId(), 
+        mainProduct.getCategory().getName()));
 
-    // user.setUserRoles(userRoles);
+    
+    Seller mainSeller = saleItem.getSeller();
+    String sellerName = String.format(
+      "%s %s", 
+      mainSeller.getFirstname(), 
+      mainSeller.getLastname()
+    );
 
-    return user;
+    CustomSeller cstSeller = new SaleItemResponseDTO.CustomSeller(mainSeller.getId(), sellerName, mainSeller.getUser().getEmail());
+
+    return new SaleItemResponseDTO(
+      saleItem.getId(), 
+      sale, 
+      cstProduct, 
+      cstSeller, 
+      saleItem.getQuantity(), 
+      saleItem.getTotal(), 
+      saleItem.getCreated(), 
+      saleItem.getUpdated()
+    );
   }
 }
