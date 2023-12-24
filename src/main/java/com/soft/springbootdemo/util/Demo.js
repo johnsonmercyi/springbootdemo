@@ -59,6 +59,18 @@ const payload = {
 
 
 
+// Request payload
+
+{
+  "sale": {
+    "customerId": "6044bf6d-ccf3-4ae2-a96b-2d54c3a588e9",
+      "saleTotal": 550
+  },
+  "saleItems": [
+    { "productId": "7b7a468a-bbf2-4bf2-939e-72eb5c70dcbd", "qty": 1, "total": 150, "sellerId": "87d02d31-c90a-4f82-8c73-6ed01f1e8877" },
+    { "productId": "56af4330-8cbd-47a1-b47f-fbff2e19b1a0", "qty": 1, "total": 400, "sellerId": "87d02d31-c90a-4f82-8c73-6ed01f1e8877" }
+  ]
+}
 
 
 
@@ -70,9 +82,7 @@ const payload = {
 
 
 
-
-
-
+// Response
 
 [
   {
