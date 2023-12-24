@@ -71,7 +71,7 @@ public class Util {
     SaleResponseDTO sale = new SaleResponseDTO();
     Sale mainSale = saleItem.getSale();
     sale.setId(mainSale.getId());
-    sale.setSaleTotal(saleItem.getTotal());
+    sale.setSaleTotal(mainSale.getSaleTotal());
     sale.setCreated(mainSale.getCreated());
     sale.setUpdated(mainSale.getUpdated());
 
