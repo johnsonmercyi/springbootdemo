@@ -1,9 +1,15 @@
 package com.soft.springbootdemo.service.returnsale;
 
-import com.soft.springbootdemo.dto.ReturnSaleDTO;
-import com.soft.springbootdemo.model.ReturnSale;
-import com.soft.springbootdemo.service.Service;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.UUID;
 
-public interface ReturnSaleService extends Service<ReturnSale> {
-    public ReturnSale save(ReturnSaleDTO returnSaleDTO);
+import com.soft.springbootdemo.dto.requestdto.ReturnSaleRequestDTO;
+import com.soft.springbootdemo.dto.responsedto.ReturnSaleResponseDTO;
+
+public interface ReturnSaleService {
+  public ReturnSaleResponseDTO save(ReturnSaleRequestDTO returnSaleRequestDTO);
+  public Collection<ReturnSaleResponseDTO> findAll();
+  public Optional<ReturnSaleResponseDTO> findById(UUID id);
+  public ReturnSaleResponseDTO findBySaleId(UUID saleId);
 }

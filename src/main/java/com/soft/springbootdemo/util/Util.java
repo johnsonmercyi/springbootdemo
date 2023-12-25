@@ -1,11 +1,11 @@
 package com.soft.springbootdemo.util;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import com.soft.springbootdemo.dto.responsedto.CategoryResponseDTO;
 import com.soft.springbootdemo.dto.responsedto.CustomerDTO;
+import com.soft.springbootdemo.dto.responsedto.ReturnSaleResponseDTO;
 import com.soft.springbootdemo.dto.responsedto.RoleDTO;
 import com.soft.springbootdemo.dto.responsedto.SaleItemResponseDTO;
 import com.soft.springbootdemo.dto.responsedto.SaleItemResponseDTO.CustomProduct;
@@ -16,6 +16,7 @@ import com.soft.springbootdemo.dto.responsedto.SellerDTO;
 import com.soft.springbootdemo.dto.responsedto.UserDTO;
 import com.soft.springbootdemo.model.Customer;
 import com.soft.springbootdemo.model.Product;
+import com.soft.springbootdemo.model.ReturnSale;
 import com.soft.springbootdemo.model.Sale;
 import com.soft.springbootdemo.model.SaleItem;
 import com.soft.springbootdemo.model.Seller;
@@ -54,27 +55,6 @@ public class Util {
     UserDTO userDTO = mapUserToDTO(seller.getUser(), fetchRoles);
     return new SellerDTO(seller.getId(), userDTO, seller.getFirstname(), seller.getLastname(), seller.getGender(), seller.getDob(), seller.getAddress(), seller.getNationality(), seller.getCreated(), seller.getUpdated());
   }
-
-  // public static SaleResponseDTO convertSaleToResponseDTO(
-  //   Sale sale) {
-
-  //   CustomCustomer cCust = new SaleResponseDTO.CustomCustomer();
-    
-  //   Customer customer = sale.getCustomer();
-  //   String customerName = String.format("%s %s", customer.getFirstname(), customer.getLastname());
-  //   cCust.setCustomerId(customer.getId());
-  //   cCust.setCustomerName(customerName);
-  //   cCust.setCustomerEmail(customer.getUser().getEmail());
-
-  //   return new SaleResponseDTO(
-  //     sale.getId(), 
-  //     cCust, 
-  //     sale.getSaleTotal(), 
-  //     new ArrayList<>(), 
-  //     sale.getCreated(), 
-  //     sale.getUpdated()
-  //   );
-  // }
 
   public static SaleItemResponseDTO convertSaleItemToResponseDTO(SaleItem saleItem) {
     
@@ -172,4 +152,14 @@ public class Util {
       sale.getUpdated()
     );
   } 
+
+  public static ReturnSaleResponseDTO convertReturnSaleToResponseDTO(ReturnSale returnSale, boolean fetchSaleItems) {
+    SaleResponseDTO saleResponseDTO = convertSaleToResponseDTO(returnSale.getSale(), fetchSaleItems);
+    return new ReturnSaleResponseDTO(
+      returnSale.getId(), 
+      saleResponseDTO, 
+      returnSale.getCreated(), 
+      returnSale.getUpdated()
+    );
+  }
 }
