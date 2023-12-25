@@ -3,6 +3,7 @@ package com.soft.springbootdemo.controller;
 import java.util.Collection;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,5 +26,10 @@ public class SaleItemController {
   public ResponseEntity<Collection<SaleItemResponseDTO>> saveSaleItems(@RequestBody SaleItemRequestDTO saleItemRequestDTO) {
 
     return ResponseEntity.ok(saleItemService.save(saleItemRequestDTO));
+  }
+
+  @GetMapping
+  public ResponseEntity<Collection<SaleItemResponseDTO>> findAllSalesItem(){
+    return ResponseEntity.ok(saleItemService.findAll());
   }
 }

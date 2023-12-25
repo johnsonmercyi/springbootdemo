@@ -85,10 +85,13 @@ public class SaleItemServiceImpl implements SaleItemService {
 
   @Override
   public Collection<SaleItemResponseDTO> findAll() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+   List<SaleItem> saleItems = saleItemRepo.findAll();
+   List<SaleItemResponseDTO> slrd = new ArrayList<>();
+    for(SaleItem sItem : saleItems){
+      if(sItem != null){
+        slrd.add(Util.convertSaleItemToResponseDTO(sItem));
+      }
+    }
+   return slrd;
   }
-
-  
-  
 }
