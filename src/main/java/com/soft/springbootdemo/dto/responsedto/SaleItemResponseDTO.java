@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SaleItemResponseDTO {
   private UUID id;
-  private SaleResponseDTO sale;
+  // private SaleResponseDTO sale;
   private CustomProduct product;
   private CustomSeller seller;
   private int quantity;

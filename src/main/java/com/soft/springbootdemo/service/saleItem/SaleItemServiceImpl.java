@@ -79,8 +79,7 @@ public class SaleItemServiceImpl implements SaleItemService {
 
   @Override
   public Collection<SaleItemResponseDTO> findBySaleId(UUID saleId) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findBySaleId'");
+    return null;
   }
 
   @Override

@@ -1,7 +1,10 @@
 package com.soft.springbootdemo.dto.responsedto;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.UUID;
+
+import com.soft.springbootdemo.model.SaleItem;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +17,7 @@ public class SaleResponseDTO {
   private UUID id;
   private CustomCustomer customer;
   private double saleTotal;
+  private Collection<SaleItemResponseDTO> saleItems;
   private LocalDateTime created;
   private LocalDateTime updated;
 

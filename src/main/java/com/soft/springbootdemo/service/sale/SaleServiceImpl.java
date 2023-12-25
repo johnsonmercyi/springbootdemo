@@ -2,6 +2,7 @@ package com.soft.springbootdemo.service.sale;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -10,9 +11,15 @@ import org.springframework.stereotype.Service;
 import com.soft.springbootdemo.dto.requestdto.SaleRequestDTO;
 import com.soft.springbootdemo.dto.responsedto.SaleResponseDTO;
 import com.soft.springbootdemo.model.Customer;
+import com.soft.springbootdemo.model.Product;
 import com.soft.springbootdemo.model.Sale;
+import com.soft.springbootdemo.model.SaleItem;
+import com.soft.springbootdemo.model.Seller;
 import com.soft.springbootdemo.repo.CustomerRepo;
+import com.soft.springbootdemo.repo.ProductRepo;
+import com.soft.springbootdemo.repo.SaleItemRepo;
 import com.soft.springbootdemo.repo.SaleRepo;
+import com.soft.springbootdemo.repo.SellerRepo;
 import com.soft.springbootdemo.util.Util;
 
 import jakarta.transaction.Transactional;
@@ -27,17 +34,44 @@ public class SaleServiceImpl implements SaleService {
 
   private final SaleRepo saleRepo;
   private final CustomerRepo customerRepo;
+  private final ProductRepo productRepo;
+  private final SellerRepo sellerRepo;
+  private final SaleItemRepo saleItemRepo;
 
   @Override
-  public SaleResponseDTO save(SaleRequestDTO dto) {
-    Optional<Customer> customer = customerRepo.findById(dto.getCustomerId());
-    Sale sale = new Sale();
+  public SaleResponseDTO save(SaleRequestDTO saleRequestDTO) {
+
+    // Save or Record firstly the Sale
+    Optional<Customer> customer = customerRepo.findById(saleRequestDTO.getCustomerId());
+    Sale savedSale = null;
 
     if (customer.isPresent()) {
+      Sale sale = new Sale();
       sale.setCustomer(customer.get());
-      sale.setSaleTotal(dto.getSaleTotal());
-      Sale savedSale = saleRepo.save(sale);
-      return Util.convertSaleToResponseDTO(savedSale);
+      sale.setSaleTotal(saleRequestDTO.getSaleTotal());
+      savedSale = saleRepo.save(sale);
+    }
+
+    // Secondly save the sale items to SaleItems
+    if (savedSale != null) {
+      List<SaleRequestDTO.SaleItems> saleItemsList = saleRequestDTO.getSaleItems();
+      for (SaleRequestDTO.SaleItems saleItems : saleItemsList) {
+        SaleItem saleItem = new SaleItem();
+        Optional<Product> product = productRepo.findById(saleItems.getProductId());
+        Optional<Seller> seller = sellerRepo.findById(saleItems.getSellerId());
+        if (product.isPresent() && seller.isPresent()) {
+          saleItem.setSale(savedSale);
+          saleItem.setProduct(product.get());
+          saleItem.setSeller(seller.get());
+          saleItem.setQuantity(saleItems.getQty());
+          saleItem.setTotal(saleItems.getTotal());
+
+          SaleItem savedSaleItem = saleItemRepo.save(saleItem);
+          savedSale.getSaleItems().add(savedSaleItem);
+        }
+      }
+
+      return Util.convertSaleToResponseDTO(savedSale, true);
     }
 
     return null;
@@ -45,7 +79,7 @@ public class SaleServiceImpl implements SaleService {
 
   @Override
   public Optional<SaleResponseDTO> findById(UUID id) {
-    return Optional.ofNullable(Util.convertSaleToResponseDTO(saleRepo.findById(id).get()));
+    return Optional.ofNullable(Util.convertSaleToResponseDTO(saleRepo.findById(id).get(), true));
   }
 
   @Override
@@ -53,7 +87,7 @@ public class SaleServiceImpl implements SaleService {
     Collection<Sale> sales = saleRepo.findAll();
     Collection<SaleResponseDTO> salesResponseList = new ArrayList<>();
     for (Sale sale : sales) {
-      salesResponseList.add(Util.convertSaleToResponseDTO(sale));
+      salesResponseList.add(Util.convertSaleToResponseDTO(sale, false));
     }
     return salesResponseList;
   }

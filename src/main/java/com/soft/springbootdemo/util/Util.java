@@ -1,6 +1,7 @@
 package com.soft.springbootdemo.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.soft.springbootdemo.dto.responsedto.CategoryResponseDTO;
@@ -54,38 +55,28 @@ public class Util {
     return new SellerDTO(seller.getId(), userDTO, seller.getFirstname(), seller.getLastname(), seller.getGender(), seller.getDob(), seller.getAddress(), seller.getNationality(), seller.getCreated(), seller.getUpdated());
   }
 
-  public static SaleResponseDTO convertSaleToResponseDTO(Sale sale) {
-    CustomCustomer cCust = new SaleResponseDTO.CustomCustomer();
-    
-    Customer customer = sale.getCustomer();
-    String customerName = String.format("%s %s", customer.getFirstname(), customer.getLastname());
-    cCust.setCustomerId(customer.getId());
-    cCust.setCustomerName(customerName);
-    cCust.setCustomerEmail(customer.getUser().getEmail());
+  // public static SaleResponseDTO convertSaleToResponseDTO(
+  //   Sale sale) {
 
-    return new SaleResponseDTO(sale.getId(), cCust, sale.getSaleTotal(), sale.getCreated(), sale.getUpdated());
-  }
+  //   CustomCustomer cCust = new SaleResponseDTO.CustomCustomer();
+    
+  //   Customer customer = sale.getCustomer();
+  //   String customerName = String.format("%s %s", customer.getFirstname(), customer.getLastname());
+  //   cCust.setCustomerId(customer.getId());
+  //   cCust.setCustomerName(customerName);
+  //   cCust.setCustomerEmail(customer.getUser().getEmail());
+
+  //   return new SaleResponseDTO(
+  //     sale.getId(), 
+  //     cCust, 
+  //     sale.getSaleTotal(), 
+  //     new ArrayList<>(), 
+  //     sale.getCreated(), 
+  //     sale.getUpdated()
+  //   );
+  // }
 
   public static SaleItemResponseDTO convertSaleItemToResponseDTO(SaleItem saleItem) {
-
-    SaleResponseDTO sale = new SaleResponseDTO();
-    Sale mainSale = saleItem.getSale();
-    sale.setId(mainSale.getId());
-    sale.setSaleTotal(mainSale.getSaleTotal());
-    sale.setCreated(mainSale.getCreated());
-    sale.setUpdated(mainSale.getUpdated());
-
-    Customer customer = saleItem.getSale().getCustomer();
-    String customerName = String.format(
-      "%s %s", 
-      customer.getFirstname(), 
-      customer.getLastname()
-    );
-
-    sale.setCustomer(
-      new SaleResponseDTO.CustomCustomer(
-        customer.getId(), customerName, customer.getUser().getEmail()));
-
     
     CustomProduct cstProduct = new SaleItemResponseDTO.CustomProduct();
     Product mainProduct = saleItem.getProduct();
@@ -110,8 +101,7 @@ public class Util {
     CustomSeller cstSeller = new SaleItemResponseDTO.CustomSeller(mainSeller.getId(), sellerName, mainSeller.getUser().getEmail());
 
     return new SaleItemResponseDTO(
-      saleItem.getId(), 
-      sale, 
+      saleItem.getId(),
       cstProduct, 
       cstSeller, 
       saleItem.getQuantity(), 
@@ -120,4 +110,66 @@ public class Util {
       saleItem.getUpdated()
     );
   }
+
+  public static SaleResponseDTO convertSaleToResponseDTO(Sale sale, boolean fetchSaleItems) {
+
+    // Fetch the customer
+    Customer customer = sale.getCustomer();
+
+    // Initialized the sale customer
+    CustomCustomer cstCustomer = new SaleResponseDTO.CustomCustomer();
+    cstCustomer.setCustomerName(String.format(
+      "%s %s", 
+        customer.getFirstname(),
+        customer.getLastname()
+        
+    ));
+    cstCustomer.setCustomerEmail(customer.getUser().getEmail());
+    cstCustomer.setCustomerId(customer.getId());
+
+    List<SaleItemResponseDTO> saleItems = new ArrayList<>();
+
+    if (fetchSaleItems) {
+      // Prepare the sale items in a response DTO
+      saleItems = sale.getSaleItems().stream()
+      .map(saleItem -> {
+        SaleItemResponseDTO saleItemDTO = new SaleItemResponseDTO();
+        saleItemDTO.setId(saleItem.getId());
+  
+        Product product = saleItem.getProduct();
+        saleItemDTO.setProduct(new CustomProduct(
+          product.getId(), 
+          new CategoryResponseDTO(product.getCategory().getId(), product.getCategory().getName()), 
+          product.getName(), 
+          product.getCost(), 
+          product.getPrice(), 
+          product.getRefNo())
+        );
+        saleItemDTO.setQuantity(saleItem.getQuantity());
+        saleItemDTO.setTotal(saleItem.getTotal());
+  
+        Seller seller = saleItem.getSeller();
+        saleItemDTO.setSeller(new CustomSeller(
+          seller.getId(),
+          String.format("%s %s", seller.getFirstname(), seller.getLastname()),
+          seller.getUser().getEmail()      
+        ));
+        
+        saleItemDTO.setCreated(saleItem.getCreated());
+        saleItemDTO.setUpdated(saleItem.getUpdated());
+  
+        return saleItemDTO;
+      }).toList();
+    }
+
+    // Return the SaleResponseDTO
+    return new SaleResponseDTO(
+      sale.getId(), 
+      cstCustomer, 
+      sale.getSaleTotal(), 
+      saleItems, 
+      sale.getCreated(), 
+      sale.getUpdated()
+    );
+  } 
 }

@@ -22,8 +22,8 @@ public class ReturnSale {
   private UUID id;
 
   @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "sale_item_id", referencedColumnName = "id", nullable = false)
-  private SaleItem saleItem;
+  @JoinColumn(name = "sale_id", referencedColumnName = "id", nullable = false)
+  private Sale sale;
 
   @CreationTimestamp
   @Column(nullable = false)
