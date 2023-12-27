@@ -68,6 +68,10 @@ public class SaleServiceImpl implements SaleService {
 
           SaleItem savedSaleItem = saleItemRepo.save(saleItem);
           savedSale.getSaleItems().add(savedSaleItem);
+
+          // ⚠️ TODO: 
+          // Update product inventory here...
+          
         }
       }
 

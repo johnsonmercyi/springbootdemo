@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.soft.springbootdemo.dto.requestdto.ReturnSaleRequestDTO;
 import com.soft.springbootdemo.dto.responsedto.ReturnSaleResponseDTO;
+import com.soft.springbootdemo.model.Product;
 import com.soft.springbootdemo.model.ReturnSale;
 import com.soft.springbootdemo.model.Sale;
 import com.soft.springbootdemo.repo.ReturnSaleRepo;
@@ -34,7 +35,22 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
       Sale oldSale = sale.get();
       ReturnSale returnSale = new ReturnSale();
       returnSale.setSale(oldSale);
-      return Util.convertReturnSaleToResponseDTO(returnSaleRepo.save(returnSale), true);
+
+      ReturnSaleResponseDTO responseDTO = Util.convertReturnSaleToResponseDTO(returnSaleRepo.save(returnSale), true);
+
+      // ⚠️ TODO:
+      // Update product inventory here...
+      returnSale.getSale().getSaleItems().stream()
+      .forEach(saleItem -> {
+        Product p = saleItem.getProduct();
+        int qty = saleItem.getQuantity();
+
+        // ...here!
+
+      });
+
+      return responseDTO;
+      
     }
 
     return null;
