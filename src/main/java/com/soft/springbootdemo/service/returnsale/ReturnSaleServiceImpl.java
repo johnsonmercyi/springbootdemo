@@ -46,12 +46,13 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
       .forEach(saleItem -> {
         Product p = saleItem.getProduct();
         int qty = saleItem.getQuantity();
-        Optional<ProductInventory> optProdInventory = productInventoryRepo.findByProductId(p.getId());
-        if(optProdInventory.isPresent()){
-          ProductInventory pi = optProdInventory.get();
-          pi.setQuantity(pi.getQuantity() + qty);
-          productInventoryRepo.save(pi);
-        }
+        // Optional<ProductInventory> optProdInventory = productInventoryRepo.findByProductId(p.getId());
+        // if(optProdInventory.isPresent()){
+        //   ProductInventory pi = optProdInventory.get();
+        //   pi.setQuantity(pi.getQuantity() + qty);
+        //   productInventoryRepo.save(pi);
+        // }
+        Util.updateInventory(p.getId(), qty, true);
 
       });
       return responseDTO;      

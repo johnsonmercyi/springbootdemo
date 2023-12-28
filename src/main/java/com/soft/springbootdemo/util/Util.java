@@ -2,6 +2,8 @@ package com.soft.springbootdemo.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import com.soft.springbootdemo.dto.responsedto.CategoryResponseDTO;
 import com.soft.springbootdemo.dto.responsedto.CustomerDTO;
@@ -16,13 +18,20 @@ import com.soft.springbootdemo.dto.responsedto.SellerDTO;
 import com.soft.springbootdemo.dto.responsedto.UserDTO;
 import com.soft.springbootdemo.model.Customer;
 import com.soft.springbootdemo.model.Product;
+import com.soft.springbootdemo.model.ProductInventory;
 import com.soft.springbootdemo.model.ReturnSale;
 import com.soft.springbootdemo.model.Sale;
 import com.soft.springbootdemo.model.SaleItem;
 import com.soft.springbootdemo.model.Seller;
 import com.soft.springbootdemo.model.User;
+import com.soft.springbootdemo.repo.ProductInventoryRepo;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class Util {
+  private static ProductInventoryRepo productInventoryRepo;
+  
   public static UserDTO mapUserToDTO(User user, boolean fetchRoles) {
     // Map user to UserDTO object
     UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getPassword(), user.getEmail(), user.getStatus(), user.getCreated(), user.getUpdated(), new ArrayList<>());
@@ -161,5 +170,20 @@ public class Util {
       returnSale.getCreated(), 
       returnSale.getUpdated()
     );
+  }
+
+  public static void updateInventory(UUID productId, int quantity, boolean productAdded){
+    Optional<ProductInventory> optProdInventory = productInventoryRepo.findByProductId(productId);
+      if(optProdInventory.isPresent()){
+        ProductInventory pi = optProdInventory.get();
+        if(productAdded){
+          pi.setQuantity(pi.getQuantity() + quantity);
+        }else{
+          if(pi.getQuantity() >= quantity){
+            pi.setQuantity(pi.getQuantity() - quantity);
+          }
+        }
+        productInventoryRepo.save(pi);
+      }
   }
 }
