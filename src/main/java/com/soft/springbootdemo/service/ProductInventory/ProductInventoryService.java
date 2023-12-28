@@ -13,4 +13,5 @@ public interface ProductInventoryService {
     public Optional<ProductInventory> findByProductId(UUID id);
     public Optional<ProductInventory> findByInventoryId(UUID id);
     public ProductInventory update(UUID inventoryId, ProductInventoryRequestDTO productInventoryRequestDTO);
+    public void updateInventory(UUID productId, int quantity, boolean productAdded);
 }

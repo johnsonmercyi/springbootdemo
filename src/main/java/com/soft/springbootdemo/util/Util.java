@@ -26,11 +26,10 @@ import com.soft.springbootdemo.model.Seller;
 import com.soft.springbootdemo.model.User;
 import com.soft.springbootdemo.repo.ProductInventoryRepo;
 
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+
+
 public class Util {
-  private static ProductInventoryRepo productInventoryRepo;
   
   public static UserDTO mapUserToDTO(User user, boolean fetchRoles) {
     // Map user to UserDTO object
@@ -172,18 +171,5 @@ public class Util {
     );
   }
 
-  public static void updateInventory(UUID productId, int quantity, boolean productAdded){
-    Optional<ProductInventory> optProdInventory = productInventoryRepo.findByProductId(productId);
-      if(optProdInventory.isPresent()){
-        ProductInventory pi = optProdInventory.get();
-        if(productAdded){
-          pi.setQuantity(pi.getQuantity() + quantity);
-        }else{
-          if(pi.getQuantity() >= quantity){
-            pi.setQuantity(pi.getQuantity() - quantity);
-          }
-        }
-        productInventoryRepo.save(pi);
-      }
-  }
+  
 }

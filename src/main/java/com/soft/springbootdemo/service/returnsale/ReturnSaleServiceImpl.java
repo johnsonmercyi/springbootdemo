@@ -17,6 +17,7 @@ import com.soft.springbootdemo.model.Sale;
 import com.soft.springbootdemo.repo.ProductInventoryRepo;
 import com.soft.springbootdemo.repo.ReturnSaleRepo;
 import com.soft.springbootdemo.repo.SaleRepo;
+import com.soft.springbootdemo.service.ProductInventory.ProductInventoryService;
 import com.soft.springbootdemo.util.Util;
 
 import jakarta.transaction.Transactional;
@@ -30,6 +31,7 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
   private final ReturnSaleRepo returnSaleRepo;
   private final SaleRepo saleRepo;
   private final ProductInventoryRepo productInventoryRepo;
+  private final ProductInventoryService pis;
   @Override
   public ReturnSaleResponseDTO save(ReturnSaleRequestDTO returnSaleRequestDTO) {
     Optional<Sale> sale = saleRepo.findById(returnSaleRequestDTO.getSaleId());
@@ -52,7 +54,7 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
         //   pi.setQuantity(pi.getQuantity() + qty);
         //   productInventoryRepo.save(pi);
         // }
-        Util.updateInventory(p.getId(), qty, true);
+        pis.updateInventory(p.getId(), qty, true);
 
       });
       return responseDTO;      

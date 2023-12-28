@@ -22,6 +22,7 @@ import com.soft.springbootdemo.repo.ProductRepo;
 import com.soft.springbootdemo.repo.SaleItemRepo;
 import com.soft.springbootdemo.repo.SaleRepo;
 import com.soft.springbootdemo.repo.SellerRepo;
+import com.soft.springbootdemo.service.ProductInventory.ProductInventoryService;
 import com.soft.springbootdemo.util.Util;
 
 import jakarta.transaction.Transactional;
@@ -40,6 +41,7 @@ public class SaleServiceImpl implements SaleService {
   private final SellerRepo sellerRepo;
   private final SaleItemRepo saleItemRepo;
   private final ProductInventoryRepo productInventoryRepo;
+  private final ProductInventoryService pis;
 
   @Override
   public SaleResponseDTO save(SaleRequestDTO saleRequestDTO) {
@@ -82,7 +84,7 @@ public class SaleServiceImpl implements SaleService {
           //     productInventoryRepo.save(pi);
           //   }
           // }
-          Util.updateInventory(product.get().getId(), saleItems.getQty(), false);
+          pis.updateInventory(product.get().getId(), saleItems.getQty(), false);
         }
       }
       return Util.convertSaleToResponseDTO(savedSale, true);

@@ -66,5 +66,21 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
         }
         return null;
     } 
+
+    @Override
+    public void updateInventory(UUID productId, int quantity, boolean productAdded){
+        Optional<ProductInventory> optProdInventory = productInventoryRepo.findByProductId(productId);
+          if(optProdInventory.isPresent()){
+            ProductInventory pi = optProdInventory.get();
+            if(productAdded){
+              pi.setQuantity(pi.getQuantity() + quantity);
+            }else{
+              if(pi.getQuantity() >= quantity){
+                pi.setQuantity(pi.getQuantity() - quantity);
+              }
+            }
+            productInventoryRepo.save(pi);
+          }
+    }
     
 }
