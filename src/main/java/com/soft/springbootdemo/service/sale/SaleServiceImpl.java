@@ -40,7 +40,6 @@ public class SaleServiceImpl implements SaleService {
   private final ProductRepo productRepo;
   private final SellerRepo sellerRepo;
   private final SaleItemRepo saleItemRepo;
-  private final ProductInventoryRepo productInventoryRepo;
   private final ProductInventoryService pis;
 
   @Override
