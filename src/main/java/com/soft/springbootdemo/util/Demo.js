@@ -189,3 +189,21 @@ const payload = {
       "created": null,
         "updated": null
 }
+
+@JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
+  private Product product;
+  
+  @Column(nullable = false)
+  private int quantity;
+
+  {
+    "productId": "19017dad-99a5-4db8-86f2-355fa00fec6c",
+    "quantity": 300
+  }
+
+  {
+    "productId":[
+      {}
+    ],
+    "quantity": 300
+  }

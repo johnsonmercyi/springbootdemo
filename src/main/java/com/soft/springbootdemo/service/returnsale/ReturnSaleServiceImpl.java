@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import com.soft.springbootdemo.dto.requestdto.ReturnSaleRequestDTO;
 import com.soft.springbootdemo.dto.responsedto.ReturnSaleResponseDTO;
 import com.soft.springbootdemo.model.Product;
+import com.soft.springbootdemo.model.ProductInventory;
 import com.soft.springbootdemo.model.ReturnSale;
 import com.soft.springbootdemo.model.Sale;
+import com.soft.springbootdemo.repo.ProductInventoryRepo;
 import com.soft.springbootdemo.repo.ReturnSaleRepo;
 import com.soft.springbootdemo.repo.SaleRepo;
 import com.soft.springbootdemo.util.Util;
@@ -27,6 +29,7 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
 
   private final ReturnSaleRepo returnSaleRepo;
   private final SaleRepo saleRepo;
+  private final ProductInventoryRepo productInventoryRepo;
   @Override
   public ReturnSaleResponseDTO save(ReturnSaleRequestDTO returnSaleRequestDTO) {
     Optional<Sale> sale = saleRepo.findById(returnSaleRequestDTO.getSaleId());
@@ -44,7 +47,12 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
       .forEach(saleItem -> {
         Product p = saleItem.getProduct();
         int qty = saleItem.getQuantity();
-
+        Optional<ProductInventory> optProdInventory = productInventoryRepo.findByProductId(p.getId());
+        if(optProdInventory.isPresent()){
+          ProductInventory pi = optProdInventory.get();
+          pi.setQuantity(pi.getQuantity() + qty);
+          productInventoryRepo.save(pi);
+        }
         // ...here!
 
       });

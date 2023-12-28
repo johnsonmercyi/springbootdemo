@@ -92,8 +92,6 @@ public class ProductServiceImpl implements ProductService {
     return productRepo.findAll().stream()
     .filter(product -> product.getCategory().getId().equals(catId))
     .toList();
-  }
-
-  
+  }  
 
 }
