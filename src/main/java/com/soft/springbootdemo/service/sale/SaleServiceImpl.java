@@ -74,14 +74,15 @@ public class SaleServiceImpl implements SaleService {
 
           // ⚠️ TODO: 
           // Update product inventory here...
-          Optional<ProductInventory> optProdInventory = productInventoryRepo.findByProductId(product.get().getId());
-          if(optProdInventory.isPresent()){
-            ProductInventory pi = optProdInventory.get();
-            if(pi.getQuantity() >= saleItems.getQty()){
-              pi.setQuantity(pi.getQuantity() - saleItems.getQty());
-              productInventoryRepo.save(pi);
-            }
-          }
+          // Optional<ProductInventory> optProdInventory = productInventoryRepo.findByProductId(product.get().getId());
+          // if(optProdInventory.isPresent()){
+          //   ProductInventory pi = optProdInventory.get();
+          //   if(pi.getQuantity() >= saleItems.getQty()){
+          //     pi.setQuantity(pi.getQuantity() - saleItems.getQty());
+          //     productInventoryRepo.save(pi);
+          //   }
+          // }
+          Util.updateInventory(product.get().getId(), saleItems.getQty(), false);
         }
       }
       return Util.convertSaleToResponseDTO(savedSale, true);
