@@ -49,7 +49,7 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
         Product p = saleItem.getProduct();
         int qty = saleItem.getQuantity();
         //update inventory
-        pis.updateInventory(p.getId(), qty, true);
+        pis.updateInventoryQty(p.getId(), qty, true);
 
       });
       return responseDTO;      

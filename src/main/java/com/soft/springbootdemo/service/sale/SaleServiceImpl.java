@@ -74,7 +74,7 @@ public class SaleServiceImpl implements SaleService {
           SaleItem savedSaleItem = saleItemRepo.save(saleItem);
           savedSale.getSaleItems().add(savedSaleItem);
           // Update product inventory here...
-          pis.updateInventory(product.get().getId(), saleItems.getQty(), false);
+          pis.updateInventoryQty(product.get().getId(), saleItems.getQty(), false);
         }
       }
       return Util.convertSaleToResponseDTO(savedSale, true);

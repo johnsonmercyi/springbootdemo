@@ -26,11 +26,12 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
     private final ProductInventoryRepo productInventoryRepo;
     private final ProductRepo productRepo;
 
+    //save
     @Override
     public ProductInventory save(ProductInventory pi) {
        return productInventoryRepo.save(pi);
     }
-
+    //Get all inventories
     @Override
     public Collection<ProductInventory> findAllInventory() {
        List <ProductInventory> inventories = productInventoryRepo.findAll();
@@ -40,17 +41,17 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
        }
        return holdProductInventories;
     }
-
+    //Get Inventory using product id
     @Override
     public Optional<ProductInventory> findByProductId(UUID id) {
         return productInventoryRepo.findByProductId(id);
     }
-
+    //Get inventory using inventory id
     @Override
     public Optional<ProductInventory> findByInventoryId(UUID id) {
         return productInventoryRepo.findById(id);
     }
-
+    //Update inventory for the controller
     @Override
     public ProductInventory update(UUID inventoryId, ProductInventoryRequestDTO productInventoryRequestDTO) {
         Optional<Product> optProduct = productRepo.findById(productInventoryRequestDTO.getProductId());
@@ -66,9 +67,9 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
         }
         return null;
     } 
-
+    //update inventory quantity for the sale and return sale
     @Override
-    public void updateInventory(UUID productId, int quantity, boolean productAdded){
+    public void updateInventoryQty(UUID productId, int quantity, boolean productAdded){
         Optional<ProductInventory> optProdInventory = productInventoryRepo.findByProductId(productId);
           if(optProdInventory.isPresent()){
             ProductInventory pi = optProdInventory.get();
