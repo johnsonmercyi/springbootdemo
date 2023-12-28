@@ -54,7 +54,6 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
       });
       return responseDTO;      
     }
-
     return null;
   }
 
