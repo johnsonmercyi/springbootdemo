@@ -4,7 +4,7 @@ import java.util.UUID;
 import java.util.Collection;
 import java.util.Optional;
 
-
+import com.soft.springbootdemo.dto.requestdto.ProductInventoryRequestDTO;
 import com.soft.springbootdemo.model.ProductInventory;
 
 public interface ProductInventoryService {
@@ -12,5 +12,5 @@ public interface ProductInventoryService {
     public Collection<ProductInventory> findAllInventory();
     public Optional<ProductInventory> findByProductId(UUID id);
     public Optional<ProductInventory> findByInventoryId(UUID id);
-    public ProductInventory update(UUID id, ProductInventory pi);
+    public ProductInventory update(UUID inventoryId, ProductInventoryRequestDTO productInventoryRequestDTO);
 }

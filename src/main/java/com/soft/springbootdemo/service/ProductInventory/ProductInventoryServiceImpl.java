@@ -9,8 +9,11 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.soft.springbootdemo.dto.requestdto.ProductInventoryRequestDTO;
+import com.soft.springbootdemo.model.Product;
 import com.soft.springbootdemo.model.ProductInventory;
 import com.soft.springbootdemo.repo.ProductInventoryRepo;
+import com.soft.springbootdemo.repo.ProductRepo;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductInventoryServiceImpl implements ProductInventoryService {
 
     private final ProductInventoryRepo productInventoryRepo;
+    private final ProductRepo productRepo;
 
     @Override
     public ProductInventory save(ProductInventory pi) {
@@ -48,14 +52,17 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
     }
 
     @Override
-    public ProductInventory update(UUID id, ProductInventory pi) {
-        Optional <ProductInventory> optProductInventory = productInventoryRepo.findById(id);
-        if(optProductInventory.isPresent()){
-            ProductInventory oldProductInventory = optProductInventory.get();
-            oldProductInventory.setProduct(pi.getProduct());
-            oldProductInventory.setQuantity(pi.getQuantity());
-
-            return productInventoryRepo.save(oldProductInventory);
+    public ProductInventory update(UUID inventoryId, ProductInventoryRequestDTO productInventoryRequestDTO) {
+        Optional<Product> optProduct = productRepo.findById(productInventoryRequestDTO.getProductId());
+        if(optProduct.isPresent()){
+            Optional <ProductInventory> optProductInventory = productInventoryRepo.findById(inventoryId);
+            if(optProductInventory.isPresent()){
+                ProductInventory oldProductInventory = optProductInventory.get();
+                oldProductInventory.setProduct(optProduct.get());
+                oldProductInventory.setQuantity(productInventoryRequestDTO.getQuantity());
+                //save
+                return productInventoryRepo.save(oldProductInventory);
+            }
         }
         return null;
     } 

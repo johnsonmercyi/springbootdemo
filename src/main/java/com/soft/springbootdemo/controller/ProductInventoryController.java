@@ -50,17 +50,9 @@ public class ProductInventoryController {
         return null;
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{inventoryId}")
     public ResponseEntity<ProductInventory> updateInventory(@PathVariable UUID inventoryId, @RequestBody ProductInventoryRequestDTO productInventoryRequestDTO){
-        Optional<Product> optProduct = productRepo.findById(productInventoryRequestDTO.getProductId());
-        if(optProduct.isPresent()){
-            ProductInventory productInventory = new ProductInventory();
-            productInventory.setProduct(optProduct.get());
-            productInventory.setQuantity(productInventoryRequestDTO.getQuantity());
-            productInventory.setId(inventoryId);
-            return ResponseEntity.ok(pis.update(inventoryId, productInventory));
-        }
-        return null;
+            return ResponseEntity.ok(pis.update(inventoryId,productInventoryRequestDTO));
     }
     
 

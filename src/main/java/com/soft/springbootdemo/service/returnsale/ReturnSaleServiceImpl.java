@@ -41,7 +41,6 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
 
       ReturnSaleResponseDTO responseDTO = Util.convertReturnSaleToResponseDTO(returnSaleRepo.save(returnSale), true);
 
-      // ⚠️ TODO:
       // Update product inventory here...
       returnSale.getSale().getSaleItems().stream()
       .forEach(saleItem -> {
@@ -53,12 +52,9 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
           pi.setQuantity(pi.getQuantity() + qty);
           productInventoryRepo.save(pi);
         }
-        // ...here!
 
       });
-
-      return responseDTO;
-      
+      return responseDTO;      
     }
 
     return null;
