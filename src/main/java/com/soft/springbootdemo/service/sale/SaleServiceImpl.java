@@ -48,7 +48,7 @@ public class SaleServiceImpl implements SaleService {
     // Save or Record firstly the Sale
     Optional<Customer> customer = customerRepo.findById(saleRequestDTO.getCustomerId());
     Sale savedSale = null;
-
+    
     if (customer.isPresent()) {
       Sale sale = new Sale();
       sale.setCustomer(customer.get());
@@ -79,7 +79,6 @@ public class SaleServiceImpl implements SaleService {
       return Util.convertSaleToResponseDTO(savedSale, true);
 
     }
-
     return null;
   }
 

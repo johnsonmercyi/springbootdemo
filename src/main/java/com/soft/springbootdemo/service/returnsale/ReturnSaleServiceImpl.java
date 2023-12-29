@@ -48,7 +48,7 @@ public class ReturnSaleServiceImpl implements ReturnSaleService {
       .forEach(saleItem -> {
         Product p = saleItem.getProduct();
         int qty = saleItem.getQuantity();
-        //update inventory
+        // Update inventory
         pis.updateInventoryQty(p.getId(), qty, true);
 
       });
