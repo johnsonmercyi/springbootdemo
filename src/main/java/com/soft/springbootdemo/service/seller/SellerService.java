@@ -6,12 +6,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.soft.springbootdemo.dto.responsedto.SellerDTO;
-import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.model.Seller;
 import com.soft.springbootdemo.model.User;
 
 public interface SellerService {
-    public Seller saveSeller(Seller seller, User user, List<Role> roles);
+    public Seller saveSeller(Seller seller, User user, List<String> roles);
 
     public Optional<SellerDTO> findById(UUID id);
 

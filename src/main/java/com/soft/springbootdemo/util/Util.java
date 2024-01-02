@@ -30,6 +30,9 @@ import com.soft.springbootdemo.repo.ProductInventoryRepo;
 
 
 public class Util {
+
+  public static final String CUSTOMER_ROLE = "customer";
+  public static final String SELLER_ROLE = "seller";
   
   public static UserDTO mapUserToDTO(User user, boolean fetchRoles) {
     // Map user to UserDTO object

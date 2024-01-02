@@ -22,6 +22,7 @@ import com.soft.springbootdemo.model.User;
 import com.soft.springbootdemo.service.customer.CustomerService;
 import com.soft.springbootdemo.service.role.RoleService;
 import com.soft.springbootdemo.service.user.UserService;
+import com.soft.springbootdemo.util.Util;
 
 import lombok.RequiredArgsConstructor;
 
@@ -54,7 +55,7 @@ public class CustomerController {
     user.setEmail(userRegDTO.getEmail());
     
     // Prepare user roles
-    List<Role> roles = List.of(roleService.findByName("customer"));
+    List<String> roles = List.of(Util.CUSTOMER_ROLE);
 
     // Prepare customer
     Customer customer = new Customer();

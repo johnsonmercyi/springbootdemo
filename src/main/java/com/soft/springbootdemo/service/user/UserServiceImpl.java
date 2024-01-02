@@ -12,6 +12,7 @@ import com.soft.springbootdemo.dto.responsedto.UserDTO;
 import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.model.User;
 import com.soft.springbootdemo.model.UserRole;
+import com.soft.springbootdemo.repo.RoleRepo;
 import com.soft.springbootdemo.repo.UserRepo;
 import com.soft.springbootdemo.repo.UserRoleRepo;
 import com.soft.springbootdemo.util.Util;
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
 
   private final UserRepo userRepo;
   private final UserRoleRepo userRoleRepo;
+  private final RoleRepo roleRepo;
 
   @Override
   public User saveUser(User user) {
@@ -33,14 +35,14 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User saveUserWithRoles(User user, List<Role> roles) {
+  public User saveUserWithRoles(User user, List<String> roles) {
     User savedUser = userRepo.save(user);// save user first
     
     // Saves the user roles in the user_roles table
     // depending on how many roles were assigned to this user
-    for (Role role : roles) {
+    for (String role : roles) {
       UserRole userRole = new UserRole();
-      userRole.setRole(role);
+      userRole.setRole(roleRepo.findByName(role));
       userRole.setUser(savedUser);
 
       userRoleRepo.save(userRole); // user user_roles

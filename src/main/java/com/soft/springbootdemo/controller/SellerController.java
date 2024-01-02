@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.soft.springbootdemo.service.role.RoleService;
 import com.soft.springbootdemo.service.seller.SellerService;
 import com.soft.springbootdemo.service.user.UserService;
+import com.soft.springbootdemo.util.Util;
 import com.soft.springbootdemo.dto.UserRegistrationDTO;
 import com.soft.springbootdemo.dto.responsedto.SellerDTO;
 import com.soft.springbootdemo.dto.responsedto.UserDTO;
@@ -59,7 +60,7 @@ public class SellerController {
         user.setEmail(userRegDTO.getEmail());
 
         //Prepare user roles
-        List<Role> roles = List.of(roleService.findByName("seller"));
+        List<String> roles = List.of(Util.SELLER_ROLE);
 
         //Prepare Seller
         Seller seller = new Seller();

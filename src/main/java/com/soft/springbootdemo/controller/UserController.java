@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.model.User;
 import com.soft.springbootdemo.service.role.RoleService;
 import com.soft.springbootdemo.service.user.UserService;
+import com.soft.springbootdemo.util.Util;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,18 +39,18 @@ public class UserController {
   }
 
   @PostMapping
-  public User saveUser(@RequestBody UserRegistrationDTO userRegDTO) {
+  public ResponseEntity<User> saveUser(@RequestBody UserRegistrationDTO userRegDTO) {
     User user = new User();
     user.setUsername(userRegDTO.getUsername());
     user.setPassword(userRegDTO.getPassword());
     user.setEmail(userRegDTO.getEmail());
-    
-    List<Role> roles = List.of(
-        roleService.findByName("customer"),
-        roleService.findByName("business")
+
+    List<String> roles = List.of(
+      Util.CUSTOMER_ROLE,
+      Util.SELLER_ROLE
     );
 
-    return userService.saveUserWithRoles(user, roles); //persist both user and customer
+    return ResponseEntity.ok(userService.saveUserWithRoles(user, roles)); //persist both user and customer
   }
 
   @GetMapping("/{id}")

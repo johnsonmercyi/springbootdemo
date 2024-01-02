@@ -31,7 +31,8 @@ public class SellerServiceImpl implements SellerService {
 
   // Save seller
   @Override
-  public Seller saveSeller(Seller seller, User user, List<Role> roles) {
+  public Seller saveSeller(Seller seller, User user, List<String> roles) {
+
     // save user first
     userService.saveUserWithRoles(user, roles);
     // Then save the seller

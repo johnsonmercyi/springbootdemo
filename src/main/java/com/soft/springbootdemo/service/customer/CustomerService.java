@@ -7,11 +7,10 @@ import java.util.UUID;
 
 import com.soft.springbootdemo.dto.responsedto.CustomerDTO;
 import com.soft.springbootdemo.model.Customer;
-import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.model.User;
 
 public interface CustomerService {
-  public Customer saveCustomer(Customer customer, User user, List<Role> roles);
+  public Customer saveCustomer(Customer customer, User user, List<String> roles);
 
   public Optional<CustomerDTO> findById(UUID id);
 

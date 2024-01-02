@@ -31,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
   private final UserRepo userRepo;
 
   @Override
-  public Customer saveCustomer(Customer customer, User user, List<Role> roles) {
+  public Customer saveCustomer(Customer customer, User user, List<String> roles) {
     // Save user first
     userService.saveUserWithRoles(user, roles);
 
