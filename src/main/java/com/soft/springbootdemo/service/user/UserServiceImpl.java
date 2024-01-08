@@ -8,8 +8,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.soft.springbootdemo.dto.LoginDTO;
 import com.soft.springbootdemo.dto.responsedto.UserDTO;
-import com.soft.springbootdemo.model.Role;
 import com.soft.springbootdemo.model.User;
 import com.soft.springbootdemo.model.UserRole;
 import com.soft.springbootdemo.repo.RoleRepo;
@@ -19,15 +19,37 @@ import com.soft.springbootdemo.util.Util;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Log4j2
 public class UserServiceImpl implements UserService {
 
   private final UserRepo userRepo;
   private final UserRoleRepo userRoleRepo;
   private final RoleRepo roleRepo;
+
+  @Override
+  public UserDTO login(LoginDTO loginDTO) {
+
+    log.info("Login details username: {}\npassword: {}", loginDTO.getUsernameOrEmail(), loginDTO.getPassword());
+
+    String usernameOrEmail = loginDTO.getUsernameOrEmail();
+    String password = loginDTO.getPassword();
+    UserDTO userDTO = findByEmail(usernameOrEmail);
+    if (userDTO == null) {
+      userDTO = findByUsername(usernameOrEmail);
+    }
+    
+    if (userDTO.getPassword().equals(password)) {
+      log.info("Logged in user {} and {}: ", userDTO.getUsername(), userDTO.getPassword());
+      return userDTO;
+    }
+
+    throw new NullPointerException("Incorrect Username or password.");
+  }
 
   @Override
   public User saveUser(User user) {
@@ -54,6 +76,16 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserDTO findByUsername(String username) {
     User user = userRepo.findByUsername(username);
+    if (user != null) {
+      // Map user data to a UserDTO object
+      return Util.mapUserToDTO(user, true);
+    }
+    return null;
+  }
+
+  @Override
+  public UserDTO findByEmail(String email) {
+    User user = userRepo.findByEmail(email);
     if (user != null) {
       // Map user data to a UserDTO object
       return Util.mapUserToDTO(user, true);
